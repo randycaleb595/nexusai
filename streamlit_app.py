@@ -10,7 +10,6 @@ st.set_page_config(
 )
 
 # Custom CSS styling to make the background strictly black and fonts completely sans-serif
-    <style>
     /* Force main app background to black */
     .stApp {
         background-color: #000000;
