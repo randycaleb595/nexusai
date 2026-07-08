@@ -3,8 +3,7 @@ import streamlit as st
 import streamlit as st
 
 
-# Custom CSS styling to make the background strictly black and fonts completely sans-serif
-import streamlit as 
+# Custom CSS styling to make the background strictly black and fonts completely sans-serif 
 
 # 1. Page Configuration
    st.set_page_config(
