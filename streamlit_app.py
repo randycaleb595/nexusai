@@ -12,24 +12,38 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 2. Initialize Anthropic Client
-if "ANTHROPIC_API_KEY" in st.secrets:
-    api_key = st.secrets["ANTHROPIC_API_KEY"]
-elif "anthropic_key" in st.session_state:
-    api_key = st.session_state["anthropic_key"]
+# 2. Initialize Gemini API Configuration
+# First, look for the key in Streamlit Secrets, then check Session State, else use your fallback key
+if "Gemini API Key" in st.secrets:
+    gemini_key = st.secrets["Gemini API Key"]
+elif "gemini_key" in st.session_state and st.session_state["gemini_key"]:
+    gemini_key = st.session_state["gemini_key"]
 else:
-    api_key = ""
+    # Your provided fallback key
+    gemini_key = ""
 
-# --- SIDEBAR FOR API KEY ---
+# --- SIDEBAR FOR API KEY CONFIGURATION ---
 with st.sidebar:
     st.header("Settings")
-    if not api_key:
-        user_key = st.text_input("Enter Anthropic API Key:", type="password")
-        if user_key:
-            st.session_state["anthropic_key"] = user_key
-            st.rerun()
+    
+    # Text input to let users manually change or paste a new Gemini Key if needed
+    user_key = st.text_input(
+        "Gemini API Key:", 
+        value=gemini_key, 
+        type="password",
+        help="Paste your Google AI Studio Gemini API key here."
+    )
+    
+    # If the user edits the key manually in the sidebar, update the active key instantly
+    if user_key != gemini_key:
+        st.session_state["gemini_key"] = user_key
+        st.rerun()
+        
+    if gemini_key:
+        st.success("Gemini API Key Loaded!")
     else:
-        st.success("Anthropic API Key Loaded!")
+        st.warning("Please provide a valid Gemini API Key to activate NEXUS AI.")
+
 
 # --- HELPER FUNCTION: CALL ONLINE DICTIONARY ---
 def fetch_online_dictionary(word: str):
