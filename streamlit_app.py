@@ -6,7 +6,7 @@ import streamlit as st
 # Custom CSS styling to make the background strictly black and fonts completely sans-serif 
 
 # 1. Page Configuration
-   st.set_page_config(
+st.set_page_config(
     page_title="NEXUS AI", 
     layout="centered", 
     initial_sidebar_state="collapsed"
