@@ -66,16 +66,13 @@ def fetch_online_dictionary(word: str):
         return None
 
 # --- MAIN APP UI ---
-st.title("📐 S2 Math Guard: Smart Online Dictionary Lookup")
-st.write("Looks up any word online, checks if it belongs in S2 Math, and blocks non-math terms.")
+st.title("NEXUS AI")
+st.write("Looks up any word online, checks if it belongs in Math, and blocks non-math terms.")
 
 # Inputs
-search_word = st.text_input("Enter a word to look up (e.g., 'Hypotenuse', 'Matrix', 'Photosynthesis'):")
-target_lang = st.selectbox("Choose Local Translation Language:", ["Luganda", "Kiswahili"])
+search_word = st.text_input("Enter a word to look up")
 
 if st.button("Process & Guard Word"):
-    if not api_key:
-        st.error("Please add your Anthropic API Key in the sidebar.")
     elif not search_word:
         st.warning("Please type a word first.")
     else:
@@ -84,15 +81,7 @@ if st.button("Process & Guard Word"):
             online_definition = fetch_online_dictionary(search_word)
             
             if not online_definition:
-                st.error(f"Could not find the word '{search_word}' in the online dictionary database.")
-            else:
-                # Step 2: Use Claude to act as a Gatekeeper & analyze if it's a math term
-                client = Anthropic(api_key=api_key)
-                
-                guard_prompt = f"""
-                You are a security gatekeeper for a Uganda Senior Two (S2) Mathematics application.
-                Your task is to analyze the following word and its dictionary definition to see if it is a relevant mathematical or business math term.
-                
+                st.error(f"Could not find the word '{search_word}' in the online dictionary database."
                 Word: {search_word}
                 Online Dictionary Definition: 
                 {online_definition}
@@ -100,8 +89,8 @@ if st.button("Process & Guard Word"):
                 CRITICAL INSTRUCTIONS:
                 1. Determine if this word is a mathematical term or highly relevant to high school business/science mathematics.
                 2. If it is NOT a math term (e.g., it is a biology, history, or everyday word like 'photosynthesis' or 'kitchen'), you must output exactly: "BLOCKED: NOT A MATH TERM" and state why.
-                3. If it IS a valid mathematical term, translate the term and its concept safely into {target_lang}, explain its definition in an easy S2 style, and show its common high school formula if applicable.
-                """
+                3. If it IS a valid mathematical term, 
+                
                 
                 try:
                     message = client.messages.create(
