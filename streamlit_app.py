@@ -211,8 +211,6 @@ if st.button(text['btn']):
                             output_html += f"<li><b>[{part_of_speech}]</b> {definition}</li>"
 
 
-import streamlit as st
-
 
 # Custom CSS styling to make the background strictly black and fonts completely sans-serif 
 
