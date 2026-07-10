@@ -1,4 +1,3 @@
-import streamlit as stimport streamlit as st
 import random
 import requests
 
