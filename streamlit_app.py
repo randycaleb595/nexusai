@@ -261,11 +261,4 @@ if st.button(text['btn']):
                         data = response.json()
                         meanings = data[0]['meanings']
                         
-                        # Format the API response nicely in white text inside container
-                        output_html = f"<div class='result-container'><div class='result-header'>{text['def_found']} '{user_query.capitalize()}'</div><ul>"
-                        
-                        for meaning in meanings:
-                            part_of_speech = meaning.get('partOfSpeech', 'noun')
-                            definition = meaning['definitions'][0]['definition']
-                            output_html += f"<li><b>[{part_of_speech}]</b> {definition}</li>"
-                            )
+                     
