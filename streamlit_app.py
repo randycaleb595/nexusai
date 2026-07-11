@@ -274,5 +274,5 @@ if st.button(text['btn']):
 # Custom CSS styling to make the background strictly black and fonts completely sans-serif 
 
 
-                    st.error(f"AI Check Failed: {str(e)}")
+                  
 
