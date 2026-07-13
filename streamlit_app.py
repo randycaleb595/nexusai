@@ -1,5 +1,5 @@
 import streamlit as st
-
+pip install google-genai
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
 GEMINI_API_KEY = "AQ.Ab8RN6Lv2L7kXrFPYwdBi4zWWHSdzv_GBN6Vr4qShTw9EixZmg"
 LANG_LABELS = {
