@@ -1,5 +1,4 @@
 import streamlit as st
-import google.generativeai as genai
 
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
 GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_HERE"  # replace with your key
