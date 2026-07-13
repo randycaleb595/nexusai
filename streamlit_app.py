@@ -1,9 +1,7 @@
 import streamlit as st
 
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
-GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_HERE"  # replace with your key
-genai.configure(api_key=GEMINI_API_KEY)
-
+GEMINI_API_KEY = "AQ.Ab8RN6Lv2L7kXrFPYwdBi4zWWHSdzv_GBN6Vr4qShTw9EixZmg"
 LANG_LABELS = {
     "English":   "🇬🇧 English",
     "Kiswahili": "🇰🇪 Kiswahili",
