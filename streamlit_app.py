@@ -171,7 +171,7 @@ else:
             st.markdown(msg["content"])
 
 # ─── GEMINI CALL ──────────────────────────────────────────────────────────────
-def ask_gemini(query, history, curriculum, lang):
+def ask_gemini(any question):
     model = genai.GenerativeModel("gemini-2.0-flash")
     
     # Build conversation history
