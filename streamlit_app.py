@@ -1,18 +1,4 @@
 import streamlit as st
-from google import genai 
-
-st.title("Nexus AI")
-
-# Connects to the Google AI client
-client = genai.Client()
-
-user_input = st.text_input("Ask me anything:")
-if user_input:
-    response = client.models.generate_content(
-        model='gemini-2.5-flash',
-        contents=user_input,
-    )
-    st.write(response.text)
 
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
 GEMINI_API_KEY = "AQ.Ab8RN6Lv2L7kXrFPYwdBi4zWWHSdzv_GBN6Vr4qShTw9EixZmg"
