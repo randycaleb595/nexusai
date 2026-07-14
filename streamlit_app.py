@@ -1,16 +1,4 @@
 import streamlit as st
-from google import genai
-
-# Change 'genai.Client()' to 'google_ai.Client()'
-client = google_ai.Client()
-
-user_input = st.text_input("Ask me anything:")
-if user_input:
-    response = client.models.generate_content(
-        model='gemini-2.5-flash',
-        contents=user_input,
-    )
-    st.write(response.text)
 
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
 GEMINI_API_KEY = "AQ.Ab8RN6Lv2L7kXrFPYwdBi4zWWHSdzv_GBN6Vr4qShTw9EixZmg"
