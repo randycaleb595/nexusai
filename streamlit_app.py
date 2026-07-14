@@ -1,5 +1,5 @@
 import streamlit as st
-
+from google import genai
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
 GEMINI_API_KEY = "AQ.Ab8RN6Lv2L7kXrFPYwdBi4zWWHSdzv_GBN6Vr4qShTw9EixZmg"
 LANG_LABELS = {
@@ -173,7 +173,8 @@ else:
 # ─── GEMINI CALL ──────────────────────────────────────────────────────────────
 def ask_gemini(query, history, curriculum, lang):
     model = genai.GenerativeModel("gemini-2.0-flash")
-    
+    client = genai.Client(api_key=GEMINI_API_KEY)
+
     # Build conversation history
     gemini_history = []
     for h in history:
