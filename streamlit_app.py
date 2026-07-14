@@ -1,5 +1,5 @@
 import streamlit as st
-import google_genai as google_ai  
+from google import genai
 
 # Change 'genai.Client()' to 'google_ai.Client()'
 client = google_ai.Client()
