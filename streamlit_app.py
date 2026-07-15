@@ -1,6 +1,5 @@
-pip install google.generativeai
 import streamlit as st
-import google.generativeai as genai
+from google import genai  # <─── USE THIS INSTEAD OF .generativeai
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
 GEMINI_API_KEY = "AQ.Ab8RN6Lv2L7kXrFPYwdBi4zWWHSdzv_GBN6Vr4qShTw9EixZmg"
 LANG_LABELS = {
