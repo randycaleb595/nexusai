@@ -1,7 +1,7 @@
 import streamlit as st
 
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
-GEMINI_API_KEY = "AQ.Ab8RN6Lv2L7kXrFPYwdBi4zWWHSdzv_GBN6Vr4qShTw9EixZmg"
+GEMINI_API_KEY = ""
 LANG_LABELS = {
     "English":   "🇬🇧 English",
     "Kiswahili": "🇰🇪 Kiswahili",
