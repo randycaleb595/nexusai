@@ -1,4 +1,8 @@
-import google_genai
+from google import genai  #  This is the correct syntax
+
+# Then initialize your client as usual:
+client = genai.Client()
+
 import requests
 import streamlit as st
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
