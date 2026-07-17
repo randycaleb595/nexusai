@@ -1,6 +1,6 @@
+from google import genai
 import requests
 import streamlit as st
-from google import genai
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
 GEMINI_API_KEY = ""
 LANG_LABELS = {
