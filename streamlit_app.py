@@ -171,7 +171,6 @@ else:
             st.markdown(msg["content"])
 
 # ─── GEMINI CALL ──────────────────────────────────────────────────────────────
-from google import genai  #  This is the correct syntax
 
 # Then initialize your client as usual:
 client = genai.Client()
