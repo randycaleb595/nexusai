@@ -1,6 +1,6 @@
 
 import streamlit as st
-# ─── CONFIG ───────────────────────────────────────────────────────────────────
+
 GEMINI_API_KEY = "AQ.Ab8RN6JUJ4qpUmpW9V2DU1gURZ4Pm9iWvkgYYUfjIEQ9WnPZcQ"
 LANG_LABELS = {
     "English":   "🇬🇧 English",
@@ -66,7 +66,7 @@ NOT_MATH_MESSAGES = {
     "German":    "⚠️ Bitte stellen Sie eine mathematische Frage.",
 }
 
-# ─── PAGE SETUP ───────────────────────────────────────────────────────────────
+
 st.set_page_config(
     page_title="Nexus AI — Math Tutor",
     page_icon="🟢",
@@ -100,7 +100,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ─── SESSION STATE ─────────────────────────────────────────────────────────────
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
 if "lang" not in st.session_state:
@@ -108,7 +108,7 @@ if "lang" not in st.session_state:
 if "curriculum" not in st.session_state:
     st.session_state.curriculum = "Illustrative Mathematics (IM)"
 
-# ─── SIDEBAR ──────────────────────────────────────────────────────────────────
+
 with st.sidebar:
     st.markdown("## 🟢 NEXUS AI")
     st.markdown("<small style='color:#00FF0080'>MATH MADE EASIER</small>", unsafe_allow_html=True)
@@ -151,7 +151,7 @@ with st.sidebar:
         st.session_state.messages = []
         st.rerun()
 
-# ─── MAIN AREA ────────────────────────────────────────────────────────────────
+
 lang = st.session_state.lang
 curriculum = st.session_state.curriculum
 
@@ -170,7 +170,6 @@ else:
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
 
-# ─── GEMINI CALL ──────────────────────────────────────────────────────────────
 
 
 import requests
@@ -202,7 +201,7 @@ Language to respond in: {lang}"""
     response = chat.send_message(prompt)
     return response.text
 
-# ─── CHAT INPUT ───────────────────────────────────────────────────────────────
+
 placeholder_map = {
     "English": "Ask a math question...",
     "Kiswahili": "Uliza swali la hisabati...",
