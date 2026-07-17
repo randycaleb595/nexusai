@@ -1,6 +1,6 @@
 import requests
 import streamlit as st
-import google.generativeai as genai
+import google_generativeai as genai
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
 GEMINI_API_KEY = ""
 LANG_LABELS = {
