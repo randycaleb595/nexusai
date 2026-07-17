@@ -1,4 +1,4 @@
-import google-genai
+import google_genai
 import requests
 import streamlit as st
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
