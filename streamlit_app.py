@@ -172,8 +172,6 @@ else:
 
 # ─── GEMINI CALL ──────────────────────────────────────────────────────────────
 
-# Then initialize your client as usual:
-client = genai.Client()
 
 import requests
 def ask_gemini(query, history, curriculum, lang):
