@@ -193,7 +193,7 @@ with st.sidebar:
     if st.button("➕ New Chat", use_container_width=True):
         st.session_state.messages = []
         st.rerun()
-st.markdown("---")
+    st.markdown("---")
     if st.button("🚪 Log Out", use_container_width=True):
         st.session_state.authed = False
         st.session_state.messages = []
