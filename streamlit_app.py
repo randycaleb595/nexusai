@@ -4,9 +4,11 @@ import requests
 if "authed" not in st.session_state:
     st.session_state.authed = False
 
-# 👇 CHANGE these to whatever you want
-VALID_EMAIL = "nexus@tutor.com"
-VALID_PASS  = "nexus123"
+
+if not st.experimental_user.is_logged_in:
+    st.experimental_login()   # shows Google button
+    st.stop()
+user = st.experimental_user    # → user.email, user.name
 
 SIGNIN_PLACEHOLDERS = {
     "English":"Sign in","Kiswahili":"Ingia","French":"Se connecter",
