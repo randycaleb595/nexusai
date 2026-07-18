@@ -5,10 +5,6 @@ if "authed" not in st.session_state:
     st.session_state.authed = False
 
 
-if not st.experimental_user.is_logged_in:
-    st.experimental_login()   # shows Google button
-    st.stop()
-user = st.experimental_user    # → user.email, user.name
 
 SIGNIN_PLACEHOLDERS = {
     "English":"Sign in","Kiswahili":"Ingia","French":"Se connecter",
