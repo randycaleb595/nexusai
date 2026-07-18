@@ -20,9 +20,7 @@ if submitted:
         st.session_state.curriculum = "Illustrative Mathematics (IM)"
         st.rerun()
     else:
-
-
-SIGNIN_PLACEHOLDERS = {
+         SIGNIN_PLACEHOLDERS = {
     "English":"Sign in","Kiswahili":"Ingia","French":"Se connecter",
     "Chinese":"登录","Arabic":"تسجيل الدخول","German":"Anmelden",
 }
