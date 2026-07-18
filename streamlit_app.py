@@ -173,23 +173,7 @@ st.markdown("<p style='text-align:center;color:#00FF66;opacity:0.5'>MATH MADE EA
 with st.sidebar:
     st.markdown("---")
    
-# --- Ask Nexus via the deployed function ---
-def ask_nexus(query, history=None, curriculum=curriculum, lang=lang):
-    try:
-        resp = requests.post(
-            ASK_NEXUS_URL,
-            json={"query": query, "history": history or [],
-                  "curriculum": curriculum, "lang": lang},
-            timeout=120,
-        )
-        if resp.status_code != 200:
-            return f"❌ Something went wrong (HTTP {resp.status_code})."
-        data = resp.json()
-        return data.get("answer") or "Sorry, no answer returned."
-    except requests.exceptions.RequestException as e:
-        return f"❌ Network error: `{e}`"
-    except Exception as e:
-        return f"❌ Error: `{e}`"
+
 
 # --- Chat state ---
 if "messages" not in st.session_state:
