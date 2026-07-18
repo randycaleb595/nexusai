@@ -162,11 +162,10 @@ if "lang" not in st.session_state:
     st.session_state.lang = "English"
 if "curriculum" not in st.session_state:
     st.session_state.curriculum = "Illustrative Mathematics (IM)"
-
+ if st.session_state.get("user_email"):
+    st.markdown(f"<small style='color:#00FF0080'>👋 {st.session_state.user_email}</small>", unsafe_allow_html=True)
 
 with st.sidebar:
-    if st.session_state.get("user_email"):
-    st.markdown(f"<small style='color:#00FF0080'>👋 {st.session_state.user_email}</small>", unsafe_allow_html=True)
     st.markdown("## 🟢 NEXUS AI")
     st.markdown("<small style='color:#00FF0080'>MATH MADE EASIER</small>", unsafe_allow_html=True)
     st.markdown("---")
