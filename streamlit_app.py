@@ -11,14 +11,20 @@ VALID_USERS = {
 }
 
 # inside the form:
-if submitted:
-    if email in VALID_USERS and VALID_USERS[email] == password:
-        st.session_state.authed = True
-        st.session_state.user_email = email
-        st.session_state.messages = []
-        st.session_state.lang = "English"
-        st.session_state.curriculum = "Illustrative Mathematics (IM)"
-        st.rerun()
+with st.form("login", clear_on_submit=False):
+    email = st.text_input("Email")
+    password = st.text_input("Password", type="password")
+    submitted = st.form_submit_button("Sign In", use_container_width=True)  # ← defines `submitted`
+    if submitted:                                                            # ← now this is valid
+        if email in VALID_USERS and VALID_USERS[email] == password:
+            st.session_state.authed = True
+            st.session_state.user_email = email
+            st.session_state.messages = []
+            st.session_state.lang = "English"
+            st.session_state.curriculum = "Illustrative Mathematics (IM)"
+            st.rerun()
+        else:
+            st.error("❌ Invalid email or password.")
     else:
          SIGNIN_PLACEHOLDERS = {
     "English":"Sign in","Kiswahili":"Ingia","French":"Se connecter",
