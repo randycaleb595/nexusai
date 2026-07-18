@@ -1,5 +1,46 @@
 import streamlit as st
 import requests
+# --- Sign-in gate ---
+if "authed" not in st.session_state:
+    st.session_state.authed = False
+
+# 👇 CHANGE these to whatever you want
+VALID_EMAIL = "nexus@tutor.com"
+VALID_PASS  = "nexus123"
+
+SIGNIN_PLACEHOLDERS = {
+    "English":"Sign in","Kiswahili":"Ingia","French":"Se connecter",
+    "Chinese":"登录","Arabic":"تسجيل الدخول","German":"Anmelden",
+}
+
+if not st.session_state.authed:
+    st.markdown("""
+    <style> [data-testid="stSidebar"] {display:none;} </style>
+    """, unsafe_allow_html=True)
+
+    st.markdown("<h1 style='text-align:center;color:#00FF00;letter-spacing:0.3em'>NEXUS AI</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align:center;color:#00FF0080'>Math Made Easier</p>", unsafe_allow_html=True)
+
+    with st.form("login", clear_on_submit=False):
+        email = st.text_input("Email")
+        password = st.text_input("Password", type="password")
+        submitted = st.form_submit_button("Sign In", use_container_width=True)
+        if submitted:
+            if email == VALID_EMAIL and password == VALID_PASS:
+                st.session_state.authed = True
+                st.session_state.messages = []
+                st.session_state.lang = "English"
+                st.session_state.curriculum = "Illustrative Mathematics (IM)"
+                st.rerun()
+            else:
+                st.error("❌ Invalid email or password.")
+    st.stop()
+
+# Sidebar logout button — add at the BOTTOM of your existing `with st.sidebar:` block:
+# if st.button("🚪 Log Out", use_container_width=True):
+#     st.session_state.authed = False
+#     st.session_state.messages = []
+#     st.rerun()
 
 APP_DOMAIN = "https://nexusai123.base44.app"
 ASK_NEXUS_URL = f"{APP_DOMAIN}/functions/askNexus"
@@ -152,7 +193,11 @@ with st.sidebar:
     if st.button("➕ New Chat", use_container_width=True):
         st.session_state.messages = []
         st.rerun()
-
+st.markdown("---")
+    if st.button("🚪 Log Out", use_container_width=True):
+        st.session_state.authed = False
+        st.session_state.messages = []
+        st.rerun()
 
 lang = st.session_state.lang
 curriculum = st.session_state.curriculum
