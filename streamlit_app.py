@@ -1,7 +1,6 @@
 import streamlit as st
 import requests
 
-
 APP_DOMAIN = "https://nexusai123.base44.app"
 ASK_NEXUS_URL = f"{APP_DOMAIN}/functions/askNexus"
 
@@ -147,66 +146,89 @@ with st.sidebar:
                     st.session_state.curriculum = item
                     st.rerun()
 
-st.markdown("""
-    <style>
-      .stApp { background:#000000; color:#ffffff; }
-      h1, h2, h3, .nexus-title { color:#00FF66 !important; letter-spacing:3px; }
-      .stChatMessage, .stTextArea textarea {
-        background:#0a0a0a !important;
-        border:1px solid rgba(0,255,102,0.2) !important;
-      }
-      .stButton > button {
-        background-color:#00FF66 !important; color:#000 !important;
-        font-weight:700; border:none;
-      }
-      .stButton > button:hover { filter:brightness(1.1); }
-      .stMarkdown, .stText { color:#e6e6e6; }
-      a, .css-1cpxqw2 { color:#00FF66; }
-    </style>
-""", unsafe_allow_html=True)
-
-# --- Header ---
-st.markdown("<h1 style='text-align:center'>NEXUS AI</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align:center;color:#00FF66;opacity:0.5'>MATH MADE EASIER</p>", unsafe_allow_html=True)
-
-# --- Sidebar ---
-with st.sidebar:
     st.markdown("---")
-   
 
-
-# --- Chat state ---
-if "messages" not in st.session_state:
-    st.session_state.messages = [{"role":"assistant","text":WELCOME[lang]}]
-
-# Display history
-for m in st.session_state.messages:
-    with st.chat_message("user" if m["role"]=="user" else "assistant",
-                          avatar="🧑‍🎓" if m["role"]=="user" else "🤖"):
-        st.markdown(m["text"])
-
-# Input
-user_input = st.chat_input("Ask a math question...")
-if user_input:
-    lower = user_input.lower()
-    if not any(k in lower for k in MATH_KEYWORDS):
-        st.session_state.messages.append({"role":"user","text":user_input})
-        st.session_state.messages.append({"role":"assistant",
-                                           "text":"⚠️ Please ask a math-related question (e.g. fractions, algebra, geometry)."})
+    # New Chat button
+    if st.button("➕ New Chat", use_container_width=True):
+        st.session_state.messages = []
         st.rerun()
+
+
+lang = st.session_state.lang
+curriculum = st.session_state.curriculum
+
+# Show hero when no messages yet
+if not st.session_state.messages:
+    st.markdown(f"<h1 style='text-align:center;font-size:3.5rem;letter-spacing:0.3em;color:#00FF00'>NEXUS AI</h1>", unsafe_allow_html=True)
+    st.markdown(f"<p style='text-align:center;color:#00FF0080'>Math Made Easier &nbsp;·&nbsp; 📌 {curriculum}</p>", unsafe_allow_html=True)
+    st.markdown("")
+    # Show welcome message bubble
+    with st.chat_message("assistant"):
+        st.markdown(WELCOME_MESSAGES[lang])
+else:
+    st.markdown(f"<h4 style='color:#00FF00;letter-spacing:0.2em'>NEXUS AI</h4>", unsafe_allow_html=True)
+    # Render chat history
+    for msg in st.session_state.messages:
+        with st.chat_message(msg["role"]):
+            st.markdown(msg["content"])
+
+
+def ask_nexus(query, history, curriculum, lang):
+    """Calls the deployed Base44 askNexus function (built-in LLM, no API key)."""
+    try:
+        resp = requests.post(
+            ASK_NEXUS_URL,
+            json={"query": query, "history": history,
+                  "curriculum": curriculum, "lang": lang},
+            timeout=120,
+        )
+        if resp.status_code != 200:
+            return f"❌ Something went wrong (HTTP {resp.status_code})."
+        data = resp.json()
+        return data.get("answer") or "Sorry, no answer returned."
+    except requests.exceptions.RequestException as e:
+        return f"❌ Network error: `{e}`"
+    except Exception as e:
+        return f"❌ Error: `{e}`"
+
+
+placeholder_map = {
+    "English": "Ask a math question...",
+    "Kiswahili": "Uliza swali la hisabati...",
+    "French": "Posez une question de maths...",
+    "Chinese": "提问数学问题...",
+    "Arabic": "اسأل سؤالاً رياضياً...",
+    "German": "Stellen Sie eine Mathe-Frage...",
+}
+
+user_input = st.chat_input(placeholder_map.get(lang, "Ask a math question..."))
+
+if user_input:
+    query = user_input.strip()
+    lower = query.lower()
+    is_math = any(kw in lower for kw in MATH_KEYWORDS)
+
+    # Show user message
+    with st.chat_message("user"):
+        st.markdown(query)
+    st.session_state.messages.append({"role": "user", "content": query})
+
+    if not is_math:
+        err = NOT_MATH_MESSAGES[lang]
+        with st.chat_message("assistant"):
+            st.warning(err)
+        st.session_state.messages.append({"role": "assistant", "content": err})
     else:
-        st.session_state.messages.append({"role":"user","text":user_input})
-        with st.chat_message("user", avatar="🧑‍🎓"):
-            st.markdown(user_input)
-        with st.chat_message("assistant", avatar="🤖"):
-            with st.spinner("Nexus is thinking…"):
-                # Build context from last 6 exchanges
-                hist = []
-                msgs = [m for m in st.session_state.messages if not m.get("error")]
-                for i in range(0, len(msgs)-1, 2):
-                    if msgs[i]["role"]=="user" and msgs[i+1]["role"]=="assistant":
-                        hist.append({"question":msgs[i]["text"],"answer":msgs[i+1]["text"]})
-                hist = hist[-6:]
-                answer = ask_nexus(user_input, hist, curriculum, lang)
+        # Build history for context (last 6 exchanges)
+        history = []
+        msgs = [m for m in st.session_state.messages[:-1]]  # exclude just-added user msg
+        for i, m in enumerate(msgs):
+            if m["role"] == "user" and i + 1 < len(msgs) and msgs[i+1]["role"] == "assistant":
+                history.append({"question": m["content"], "answer": msgs[i+1]["content"]})
+        history = history[-6:]
+
+        with st.chat_message("assistant"):
+            with st.spinner("Nexus is thinking..."):
+                answer = ask_nexus(query, history, curriculum, lang)
                 st.markdown(answer)
-        st.session_state.messages.append({"role":"assistant","text":answer})
+                st.session_state.messages.append({"role": "assistant", "content": answer})
