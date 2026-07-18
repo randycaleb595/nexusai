@@ -3,20 +3,43 @@ import requests
 
 # ✅ Replace YOUR_APP_DOMAIN with your published Base44 app domain
 #    e.g. https://my-nexus-app.base44.app  (no trailing slash)
-APP_DOMAIN = "https://YOUR_APP_DOMAIN.base44.app"
+APP_DOMAIN = "https://nexusai123.base44.app"
 ASK_NEXUS_URL = f"{APP_DOMAIN}/functions/askNexus"
 
-LANGUAGES = ["English", "Kiswahili", "French", "Chinese", "Arabic", "German"]
-CURRICULUMS = [
-    "Illustrative Mathematics (IM)",
-    "Cambridge International (IGCSE / A-Levels)",
-    "International Baccalaureate (IB Math)",
-    "Singapore Math (Math in Focus)",
-    "Khan Academy",
-    "Uganda NCDC Competency-Based Curriculum",
-    "Saxon Math",
-    "General",
-]
+LANG_LABELS = {
+    "English":   "🇬🇧 English",
+    "Kiswahili": "🇰🇪 Kiswahili",
+    "French":    "🇫🇷 French",
+    "Chinese":   "🇨🇳 Chinese",
+    "Arabic":    "🇸🇦 Arabic",
+    "German":    "🇩🇪 German",
+}
+
+CURRICULUMS = {
+    "Global & Institutional": [
+        "Illustrative Mathematics (IM)",
+        "Cambridge International (IGCSE / A-Levels)",
+        "International Baccalaureate (IB Math)",
+        "Uganda NCDC Competency-Based Curriculum",
+        "Agile Mind Common Core Math",
+        "Big Ideas Math",
+    ],
+    "Conceptual & Mastery-Based": [
+        "Singapore Math (Math in Focus)", "Math-U-See", "Math Academy",
+        "Math Mammoth", "RightStart Mathematics", "CTCMath",
+    ],
+    "Spiral & Repetition-Based": [
+        "Saxon Math", "Everyday Mathematics", "Horizons Math",
+        "Go Math!", "Think Academy Math",
+    ],
+    "Digital & Self-Paced": [
+        "Khan Academy", "Teaching Textbooks", "Beast Academy",
+        "Prodigy Math", "IXL Learning Math", "ALEKS Math",
+    ],
+    "Specialized & Advanced": [
+        "Russian School of Mathematics (RSM)", "Life of Fred Math",
+    ],
+}
 
 MATH_KEYWORDS = [
     "math","algebra","calculus","geometry","fraction","integer","equation","theorem",
@@ -29,48 +52,94 @@ MATH_KEYWORDS = [
     "is","are","does","example","formula","rule","property","simplify","expand",
 ]
 
-WELCOME = {
-    "English": "👋 Hi! I'm **Nexus AI** — your friendly math tutor. Ask me anything about maths!",
-    "Kiswahili": "👋 Habari! Mimi ni **Nexus AI** — mwalimu wako wa hisabati.",
-    "French": "👋 Bonjour! Je suis **Nexus AI** — votre tuteur en mathématiques.",
-    "Chinese": "👋 你好！我是 **Nexus AI** — 你的数学辅导老师。",
-    "Arabic": "👋 مرحباً! أنا **Nexus AI** — مدرسك للرياضيات.",
-    "German": "👋 Hallo! Ich bin **Nexus AI** — dein Mathe-Tutor.",
+WELCOME_MESSAGES  = {
+    "English":   "👋 Hi! I'm **Nexus AI** — your friendly math tutor. Ask me anything about maths and I'll explain it simply. Try: *\"What is a fraction?\"* or *\"How do I solve 2x + 3 = 7?\"*",
+    "Kiswahili": "👋 Habari! Mimi ni **Nexus AI** — mwalimu wako wa hisabati. Niulize chochote kuhusu hisabati!",
+    "French":    "👋 Bonjour! Je suis **Nexus AI** — votre tuteur en mathématiques. Posez-moi n'importe quelle question!",
+    "Chinese":   "👋 你好！我是 **Nexus AI** — 你的数学辅导老师。问我任何数学问题！",
+    "Arabic":    "👋 مرحباً! أنا **Nexus AI** — مدرسك للرياضيات. اسألني أي سؤال!",
+    "German":    "👋 Hallo! Ich bin **Nexus AI** — dein Mathe-Tutor. Frag mich alles!",
+
 }
 
-# --- Page config ---
-st.set_page_config(page_title="Nexus AI", page_icon="🧮", layout="centered")
+st.set_page_config(
+    page_title="Nexus AI — Math Tutor",
+    page_icon="🟢",
+    layout="wide",
+)
 
-# --- Custom black + neon green theme ---
 st.markdown("""
-    <style>
-      .stApp { background:#000000; color:#ffffff; }
-      h1, h2, h3, .nexus-title { color:#00FF66 !important; letter-spacing:3px; }
-      .stChatMessage, .stTextArea textarea {
-        background:#0a0a0a !important;
-        border:1px solid rgba(0,255,102,0.2) !important;
-      }
-      .stButton > button {
-        background-color:#00FF66 !important; color:#000 !important;
-        font-weight:700; border:none;
-      }
-      .stButton > button:hover { filter:brightness(1.1); }
-      .stMarkdown, .stText { color:#e6e6e6; }
-      a, .css-1cpxqw2 { color:#00FF66; }
-    </style>
+<style>
+  /* Pure black background, neon green accents */
+  html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
+    background-color: #000000 !important;
+    color: #ffffff;
+  }
+  [data-testid="stSidebar"] { background-color: #080808 !important; }
+  [data-testid="stSidebar"] * { color: #ffffff; }
+  h1, h2, h3 { color: #00FF00 !important; }
+  .stChatMessage { background: #0d0d0d; border: 1px solid #00FF0026; border-radius: 12px; }
+  .stButton>button {
+    background: #00FF00; color: #000; font-weight: 700; border: none;
+    border-radius: 8px;
+  }
+  .stButton>button:hover { filter: brightness(1.1); }
+  .stSelectbox label, .stRadio label { color: #00FF00 !important; font-size: 11px; }
+  .stTextInput>div>div>input, .stTextArea>div>div>textarea {
+    background: #0a0a0a !important;
+    border: 1px solid #00FF0033 !important;
+    color: #fff !important;
+    border-radius: 12px;
+  }
+  .stChatInputContainer { background: #0a0a0a; border-top: 1px solid #00FF0020; }
+</style>
 """, unsafe_allow_html=True)
 
-# --- Header ---
-st.markdown("<h1 style='text-align:center'>NEXUS AI</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align:center;color:#00FF66;opacity:0.5'>MATH MADE EASIER</p>", unsafe_allow_html=True)
 
-# --- Sidebar ---
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+if "lang" not in st.session_state:
+    st.session_state.lang = "English"
+if "curriculum" not in st.session_state:
+    st.session_state.curriculum = "Illustrative Mathematics (IM)"
+
+
 with st.sidebar:
-    st.markdown("## ⚙️ Settings")
-    lang = st.selectbox("Language", LANGUAGES, index=0)
-    curriculum = st.selectbox("Curriculum", CURRICULUMS, index=0)
+    st.markdown("## 🟢 NEXUS AI")
+    st.markdown("<small style='color:#00FF0080'>MATH MADE EASIER</small>", unsafe_allow_html=True)
     st.markdown("---")
-    st.caption("No API key needed — powered by your Base44 backend.")
+
+    # Language picker
+    st.markdown("#### 🌐 Language")
+    lang_choice = st.radio(
+        "Select language",
+        options=list(LANG_LABELS.keys()),
+        format_func=lambda x: LANG_LABELS[x],
+        index=list(LANG_LABELS.keys()).index(st.session_state.lang),
+        label_visibility="collapsed",
+    )
+    if lang_choice != st.session_state.lang:
+        st.session_state.lang = lang_choice
+        st.session_state.messages = []  # reset chat on lang change
+        st.rerun()
+
+    st.markdown("---")
+
+    # Curriculum picker
+    st.markdown("#### 📚 Curricula")
+    for cat, items in CURRICULUMS.items():
+        with st.expander(cat, expanded=False):
+            for item in items:
+                if st.button(
+                    item,
+                    key=f"curr_{item}",
+                    use_container_width=True,
+                    type="primary" if st.session_state.curriculum == item else "secondary",
+                ):
+                    st.session_state.curriculum = item
+                    st.rerun()
+
+
 
 # --- Ask Nexus via the deployed function ---
 def ask_nexus(query, history=None, curriculum=curriculum, lang=lang):
