@@ -155,12 +155,7 @@ with st.sidebar:
     if st.button("➕ New Chat", use_container_width=True):
         st.session_state.messages = []
         st.rerun()
-    st.markdown("---")
-    if st.button("🚪 Log Out", use_container_width=True):
-        st.session_state.authed = False
-        st.session_state.messages = []
-        st.rerun()
-
+    
 lang = st.session_state.lang
 curriculum = st.session_state.curriculum
 
