@@ -3,7 +3,23 @@ import requests
 # --- Sign-in gate ---
 if "authed" not in st.session_state:
     st.session_state.authed = False
+VALID_USERS = {
+    "nexus@tutor.com": "nexus123",
+    "teacher@tutor.com": "teacher123",
+    "student@tutor.com": "math123",
+    "randycaleb595@gmail.com":"run12&br",
+}
 
+# inside the form:
+if submitted:
+    if email in VALID_USERS and VALID_USERS[email] == password:
+        st.session_state.authed = True
+        st.session_state.user_email = email
+        st.session_state.messages = []
+        st.session_state.lang = "English"
+        st.session_state.curriculum = "Illustrative Mathematics (IM)"
+        st.rerun()
+    else:
 
 
 SIGNIN_PLACEHOLDERS = {
@@ -151,6 +167,8 @@ if "curriculum" not in st.session_state:
 
 
 with st.sidebar:
+    if st.session_state.get("user_email"):
+    st.markdown(f"<small style='color:#00FF0080'>👋 {st.session_state.user_email}</small>", unsafe_allow_html=True)
     st.markdown("## 🟢 NEXUS AI")
     st.markdown("<small style='color:#00FF0080'>MATH MADE EASIER</small>", unsafe_allow_html=True)
     st.markdown("---")
