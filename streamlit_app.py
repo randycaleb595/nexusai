@@ -5,37 +5,6 @@ import requests
 APP_DOMAIN = "https://nexusai123.base44.app"
 ASK_NEXUS_URL = f"{APP_DOMAIN}/functions/askNexus"
 
-LANGUAGES = ["English", "Kiswahili", "French", "Chinese", "Arabic", "German"]
-CURRICULUMS = [
-    "Illustrative Mathematics (IM)",
-    "Cambridge International (IGCSE / A-Levels)",
-    "International Baccalaureate (IB Math)",
-    "Singapore Math (Math in Focus)",
-    "Khan Academy",
-    "Uganda NCDC Competency-Based Curriculum",
-    "Saxon Math",
-    "General",
-]
-
-MATH_KEYWORDS = [
-    "math","algebra","calculus","geometry","fraction","integer","equation","theorem",
-    "matrix","vector","derivative","integral","angle","triangle","polygon","arithmetic",
-    "trigonometry","ratio","percent","probability","statistics","function","graph",
-    "exponent","logarithm","prime","factor","division","multiplier","sum","subtraction",
-    "addition","multiplication","number","digit","set","proof","limit","series",
-    "sequence","polynomial","quadratic","linear","circle","sphere","cube","parabola",
-    "what","how","why","explain","solve","find","calculate","show","define","mean",
-    "is","are","does","example","formula","rule","property","simplify","expand",
-]
-
-WELCOME = {
-    "English": "👋 Hi! I'm **Nexus AI** — your friendly math tutor. Ask me anything about maths!",
-    "Kiswahili": "👋 Habari! Mimi ni **Nexus AI** — mwalimu wako wa hisabati.",
-    "French": "👋 Bonjour! Je suis **Nexus AI** — votre tuteur en mathématiques.",
-    "Chinese": "👋 你好！我是 **Nexus AI** — 你的数学辅导老师。",
-    "Arabic": "👋 مرحباً! أنا **Nexus AI** — مدرسك للرياضيات.",
-    "German": "👋 Hallo! Ich bin **Nexus AI** — dein Mathe-Tutor.",
-}
 LANG_LABELS = {
     "English":   "🇬🇧 English",
     "Kiswahili": "🇰🇪 Kiswahili",
@@ -178,10 +147,6 @@ with st.sidebar:
                     st.session_state.curriculum = item
                     st.rerun()
 
-# --- Page config ---
-st.set_page_config(page_title="Nexus AI", page_icon="🧮", layout="centered")
-
-# --- Custom black + neon green theme ---
 st.markdown("""
     <style>
       .stApp { background:#000000; color:#ffffff; }
@@ -206,12 +171,8 @@ st.markdown("<p style='text-align:center;color:#00FF66;opacity:0.5'>MATH MADE EA
 
 # --- Sidebar ---
 with st.sidebar:
-    st.markdown("## ⚙️ Settings")
-    lang = st.selectbox("Language", LANGUAGES, index=0)
-    curriculum = st.selectbox("Curriculum", CURRICULUMS, index=0)
     st.markdown("---")
-    st.caption("No API key needed — powered by your Base44 backend.")
-
+   
 # --- Ask Nexus via the deployed function ---
 def ask_nexus(query, history=None, curriculum=curriculum, lang=lang):
     try:
