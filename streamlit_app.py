@@ -1,11 +1,41 @@
 import streamlit as st
 import requests
 
-# ✅ Replace YOUR_APP_DOMAIN with your published Base44 app domain
-#    e.g. https://my-nexus-app.base44.app  (no trailing slash)
+
 APP_DOMAIN = "https://nexusai123.base44.app"
 ASK_NEXUS_URL = f"{APP_DOMAIN}/functions/askNexus"
 
+LANGUAGES = ["English", "Kiswahili", "French", "Chinese", "Arabic", "German"]
+CURRICULUMS = [
+    "Illustrative Mathematics (IM)",
+    "Cambridge International (IGCSE / A-Levels)",
+    "International Baccalaureate (IB Math)",
+    "Singapore Math (Math in Focus)",
+    "Khan Academy",
+    "Uganda NCDC Competency-Based Curriculum",
+    "Saxon Math",
+    "General",
+]
+
+MATH_KEYWORDS = [
+    "math","algebra","calculus","geometry","fraction","integer","equation","theorem",
+    "matrix","vector","derivative","integral","angle","triangle","polygon","arithmetic",
+    "trigonometry","ratio","percent","probability","statistics","function","graph",
+    "exponent","logarithm","prime","factor","division","multiplier","sum","subtraction",
+    "addition","multiplication","number","digit","set","proof","limit","series",
+    "sequence","polynomial","quadratic","linear","circle","sphere","cube","parabola",
+    "what","how","why","explain","solve","find","calculate","show","define","mean",
+    "is","are","does","example","formula","rule","property","simplify","expand",
+]
+
+WELCOME = {
+    "English": "👋 Hi! I'm **Nexus AI** — your friendly math tutor. Ask me anything about maths!",
+    "Kiswahili": "👋 Habari! Mimi ni **Nexus AI** — mwalimu wako wa hisabati.",
+    "French": "👋 Bonjour! Je suis **Nexus AI** — votre tuteur en mathématiques.",
+    "Chinese": "👋 你好！我是 **Nexus AI** — 你的数学辅导老师。",
+    "Arabic": "👋 مرحباً! أنا **Nexus AI** — مدرسك للرياضيات.",
+    "German": "👋 Hallo! Ich bin **Nexus AI** — dein Mathe-Tutor.",
+}
 LANG_LABELS = {
     "English":   "🇬🇧 English",
     "Kiswahili": "🇰🇪 Kiswahili",
@@ -52,15 +82,24 @@ MATH_KEYWORDS = [
     "is","are","does","example","formula","rule","property","simplify","expand",
 ]
 
-WELCOME_MESSAGES  = {
+WELCOME_MESSAGES = {
     "English":   "👋 Hi! I'm **Nexus AI** — your friendly math tutor. Ask me anything about maths and I'll explain it simply. Try: *\"What is a fraction?\"* or *\"How do I solve 2x + 3 = 7?\"*",
     "Kiswahili": "👋 Habari! Mimi ni **Nexus AI** — mwalimu wako wa hisabati. Niulize chochote kuhusu hisabati!",
     "French":    "👋 Bonjour! Je suis **Nexus AI** — votre tuteur en mathématiques. Posez-moi n'importe quelle question!",
     "Chinese":   "👋 你好！我是 **Nexus AI** — 你的数学辅导老师。问我任何数学问题！",
     "Arabic":    "👋 مرحباً! أنا **Nexus AI** — مدرسك للرياضيات. اسألني أي سؤال!",
     "German":    "👋 Hallo! Ich bin **Nexus AI** — dein Mathe-Tutor. Frag mich alles!",
-
 }
+
+NOT_MATH_MESSAGES = {
+    "English":   "⚠️ Please ask a math-related question (e.g. fractions, algebra, geometry).",
+    "Kiswahili": "⚠️ Tafadhali uliza swali linalohusu hisabati.",
+    "French":    "⚠️ Veuillez poser une question liée aux mathématiques.",
+    "Chinese":   "⚠️ 请提出与数学相关的问题。",
+    "Arabic":    "⚠️ يرجى طرح سؤال متعلق بالرياضيات.",
+    "German":    "⚠️ Bitte stellen Sie eine mathematische Frage.",
+}
+
 
 st.set_page_config(
     page_title="Nexus AI — Math Tutor",
@@ -139,7 +178,39 @@ with st.sidebar:
                     st.session_state.curriculum = item
                     st.rerun()
 
+# --- Page config ---
+st.set_page_config(page_title="Nexus AI", page_icon="🧮", layout="centered")
 
+# --- Custom black + neon green theme ---
+st.markdown("""
+    <style>
+      .stApp { background:#000000; color:#ffffff; }
+      h1, h2, h3, .nexus-title { color:#00FF66 !important; letter-spacing:3px; }
+      .stChatMessage, .stTextArea textarea {
+        background:#0a0a0a !important;
+        border:1px solid rgba(0,255,102,0.2) !important;
+      }
+      .stButton > button {
+        background-color:#00FF66 !important; color:#000 !important;
+        font-weight:700; border:none;
+      }
+      .stButton > button:hover { filter:brightness(1.1); }
+      .stMarkdown, .stText { color:#e6e6e6; }
+      a, .css-1cpxqw2 { color:#00FF66; }
+    </style>
+""", unsafe_allow_html=True)
+
+# --- Header ---
+st.markdown("<h1 style='text-align:center'>NEXUS AI</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align:center;color:#00FF66;opacity:0.5'>MATH MADE EASIER</p>", unsafe_allow_html=True)
+
+# --- Sidebar ---
+with st.sidebar:
+    st.markdown("## ⚙️ Settings")
+    lang = st.selectbox("Language", LANGUAGES, index=0)
+    curriculum = st.selectbox("Curriculum", CURRICULUMS, index=0)
+    st.markdown("---")
+    st.caption("No API key needed — powered by your Base44 backend.")
 
 # --- Ask Nexus via the deployed function ---
 def ask_nexus(query, history=None, curriculum=curriculum, lang=lang):
