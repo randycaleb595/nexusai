@@ -72,7 +72,7 @@ NOT_MATH_MESSAGES = {
 st.set_page_config(
     page_title="Nexus AI — Math Tutor",
     page_icon="🟢",
-    layout="narrow",
+    layout="wide",
 )
 
 st.markdown("""
