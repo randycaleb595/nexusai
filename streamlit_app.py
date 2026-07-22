@@ -159,12 +159,12 @@ with st.sidebar:
 lang = st.session_state.lang
 curriculum = st.session_state.curriculum
 
-# Show hero when no messages yet
+
 if not st.session_state.messages:
     st.markdown(f"<h1 style='text-align:center;font-size:3.5rem;letter-spacing:0.3em;color:#00FF00'>NEXUS AI</h1>", unsafe_allow_html=True)
     st.markdown(f"<p style='text-align:center;color:#00FF0080'>Math Made Easier &nbsp;·&nbsp; 📌 {curriculum}</p>", unsafe_allow_html=True)
     st.markdown("")
-    # Show welcome message bubble
+   
     with st.chat_message("assistant"):
         st.markdown(WELCOME_MESSAGES[lang])
 else:
