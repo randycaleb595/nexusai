@@ -40,7 +40,7 @@ CURRICULUMS = {
 }
 
 MATH_KEYWORDS = [
-    "math","algebra","calculus","geometry","fraction","integer","equation","theorem",
+    "math","algebra","calculus","geometry","add","subtract","fraction","integer","equation","theorem",
     "matrix","vector","derivative","integral","angle","triangle","polygon","arithmetic",
     "trigonometry","ratio","percent","probability","statistics","function","graph",
     "exponent","logarithm","prime","factor","division","multiplier","sum","subtraction",
