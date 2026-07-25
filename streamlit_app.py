@@ -1,9 +1,7 @@
 import streamlit as st
 import requests
-
 APP_DOMAIN = "https://nexusai123.base44.app"
 ASK_NEXUS_URL = f"{APP_DOMAIN}/functions/askNexus"
-
 LANG_LABELS = {
     "English":   "🇬🇧 English",
     "Kiswahili": "🇰🇪 Kiswahili",
@@ -12,7 +10,6 @@ LANG_LABELS = {
     "Arabic":    "🇸🇦 Arabic",
     "German":    "🇩🇪 German",
 }
-
 CURRICULUMS = {
     "Global & Institutional": [
         "Illustrative Mathematics (IM)",
@@ -38,9 +35,8 @@ CURRICULUMS = {
         "Russian School of Mathematics (RSM)", "Life of Fred Math",
     ],
 }
-
 MATH_KEYWORDS = [
-    "math","algebra","calculus","geometry","add","subtract","fraction","integer","equation","theorem",
+    "math","algebra","calculus","geometry","add","subtract","fraction","integer","+","-","x","equation","theorem",
     "matrix","vector","derivative","integral","angle","triangle","polygon","arithmetic",
     "trigonometry","ratio","percent","probability","statistics","function","graph",
     "exponent","logarithm","prime","factor","division","multiplier","sum","subtraction",
@@ -49,7 +45,6 @@ MATH_KEYWORDS = [
     "what","how","why","explain","solve","find","calculate","show","define","mean",
     "is","are","does","example","formula","rule","property","simplify","expand",
 ]
-
 WELCOME_MESSAGES = {
     "English":   "👋 Hi! I'm **Nexus AI** — your friendly math tutor. Ask me anything about maths and I'll explain it simply. Try: *\"What is a fraction?\"* or *\"How do I solve 2x + 3 = 7?\"*",
     "Kiswahili": "👋 Habari! Mimi ni **Nexus AI** — mwalimu wako wa hisabati. Niulize chochote kuhusu hisabati!",
@@ -58,7 +53,6 @@ WELCOME_MESSAGES = {
     "Arabic":    "👋 مرحباً! أنا **Nexus AI** — مدرسك للرياضيات. اسألني أي سؤال!",
     "German":    "👋 Hallo! Ich bin **Nexus AI** — dein Mathe-Tutor. Frag mich alles!",
 }
-
 NOT_MATH_MESSAGES = {
     "English":   "⚠️ Please ask a math-related question (e.g. fractions, algebra, geometry).",
     "Kiswahili": "⚠️ Tafadhali uliza swali linalohusu hisabati.",
@@ -67,14 +61,11 @@ NOT_MATH_MESSAGES = {
     "Arabic":    "⚠️ يرجى طرح سؤال متعلق بالرياضيات.",
     "German":    "⚠️ Bitte stellen Sie eine mathematische Frage.",
 }
-
-
 st.set_page_config(
     page_title="Nexus AI — Math Tutor",
     page_icon="🟢",
     layout="wide",
 )
-
 st.markdown("""
 <style>
   /* Pure black background, neon green accents */
@@ -101,24 +92,18 @@ st.markdown("""
   .stChatInputContainer { background: #0a0a0a; border-top: 1px solid #00FF0020; }
 </style>
 """, unsafe_allow_html=True)
-
-
 if "messages" not in st.session_state:
     st.session_state.messages = []
 if "lang" not in st.session_state:
     st.session_state.lang = "English"
 if "curriculum" not in st.session_state:
     st.session_state.curriculum = "Illustrative Mathematics (IM)"
-with st.sidebar:
-    
+with st.sidebar:    
     if st.session_state.get("user_email"):
         st.markdown(f"<small style='color:#00FF0080'>👋 {st.session_state.user_email}</small>", unsafe_allow_html=True)
-
     st.markdown("## 🟢 NEXUS AI")
     st.markdown("<small style='color:#00FF0080'>MATH MADE EASIER</small>", unsafe_allow_html=True)
     st.markdown("---")
-
-
     # Language picker
     st.markdown("#### 🌐 Language")
     lang_choice = st.radio(
@@ -132,10 +117,7 @@ with st.sidebar:
         st.session_state.lang = lang_choice
         st.session_state.messages = []  # reset chat on lang change
         st.rerun()
-
     st.markdown("---")
-
-    # Curriculum picker
     st.markdown("#### 📚 Curricula")
     for cat, items in CURRICULUMS.items():
         with st.expander(cat, expanded=False):
@@ -148,23 +130,16 @@ with st.sidebar:
                 ):
                     st.session_state.curriculum = item
                     st.rerun()
-
     st.markdown("---")
-
-    # New Chat button
     if st.button("➕ New Chat", use_container_width=True):
         st.session_state.messages = []
         st.rerun()
-    
 lang = st.session_state.lang
 curriculum = st.session_state.curriculum
-
-
 if not st.session_state.messages:
     st.markdown(f"<h1 style='text-align:center;font-size:3.5rem;letter-spacing:0.3em;color:#00FF00'>NEXUS AI</h1>", unsafe_allow_html=True)
     st.markdown(f"<p style='text-align:center;color:#00FF0080'>Math Made Easier &nbsp;·&nbsp; 📌 {curriculum}</p>", unsafe_allow_html=True)
     st.markdown("")
-   
     with st.chat_message("assistant"):
         st.markdown(WELCOME_MESSAGES[lang])
 else:
@@ -173,8 +148,6 @@ else:
     for msg in st.session_state.messages:
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
-
-
 def ask_nexus(query, history, curriculum, lang):
     """Calls the deployed Base44 askNexus function (built-in LLM, no API key)."""
     try:
@@ -192,8 +165,6 @@ def ask_nexus(query, history, curriculum, lang):
         return f"❌ Network error: `{e}`"
     except Exception as e:
         return f"❌ Error: `{e}`"
-
-
 placeholder_map = {
     "English": "Ask a math question...",
     "Kiswahili": "Uliza swali la hisabati...",
@@ -202,19 +173,14 @@ placeholder_map = {
     "Arabic": "اسأل سؤالاً رياضياً...",
     "German": "Stellen Sie eine Mathe-Frage...",
 }
-
 user_input = st.chat_input(placeholder_map.get(lang, "Ask a math question..."))
-
 if user_input:
     query = user_input.strip()
     lower = query.lower()
     is_math = any(kw in lower for kw in MATH_KEYWORDS)
-
-    # Show user message
     with st.chat_message("user"):
         st.markdown(query)
     st.session_state.messages.append({"role": "user", "content": query})
-
     if not is_math:
         err = NOT_MATH_MESSAGES[lang]
         with st.chat_message("assistant"):
@@ -228,7 +194,6 @@ if user_input:
             if m["role"] == "user" and i + 1 < len(msgs) and msgs[i+1]["role"] == "assistant":
                 history.append({"question": m["content"], "answer": msgs[i+1]["content"]})
         history = history[-6:]
-
         with st.chat_message("assistant"):
             with st.spinner("Nexus is thinking..."):
                 answer = ask_nexus(query, history, curriculum, lang)
