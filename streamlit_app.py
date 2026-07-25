@@ -40,7 +40,7 @@ MATH_KEYWORDS = [
     "matrix","vector","derivative","integral","angle","triangle","polygon","arithmetic","plus","minus","divide by","summation"
     "trigonometry","ratio","percent","probability","statistics","function","graph",
     "exponent","logarithm","prime","factor","division","multiplier","sum","subtraction",
-    "addition","multiplication","number","digit","set","proof","limit","series",
+    "addition","multiplication","number","digit","set","proof","limit","series","love"
     "sequence","polynomial","quadratic","linear","circle","sphere","cube","parabola",
     "what","how","why","explain","solve","find","calculate","show","define","mean",
     "is","are","does","example","formula","rule","property","simplify","expand",
