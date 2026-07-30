@@ -202,8 +202,8 @@ st.markdown(
 )
 st.markdown("---")
 st.markdown("#### 🌐 Language")
-    lang_choice = st.radio(
-     "Select language",
+lang_choice = st.radio(
+    "Select language",
         options=list(LANG_LABELS.keys()),
         format_func=lambda x: LANG_LABELS[x],
         index=list(LANG_LABELS.keys()).index(st.session_state.lang),
