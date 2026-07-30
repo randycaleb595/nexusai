@@ -209,16 +209,16 @@ lang_choice = st.radio(
         index=list(LANG_LABELS.keys()).index(st.session_state.lang),
         label_visibility="collapsed",
     )
-    if lang_choice != st.session_state.lang:
+if lang_choice != st.session_state.lang:
         st.session_state.lang = lang_choice
         st.session_state.messages = []  # reset chat on lang change
         st.rerun()
     st.markdown("---")
     st.markdown("#### 📚 Curricula")
-    for cat, items in CURRICULUMS.items():
-        with st.expander(cat, expanded=False):
-            for item in items:
-                if st.button(
+for cat, items in CURRICULUMS.items():
+    with st.expander(cat, expanded=False):
+        for item in items:
+        if st.button(
                     item,
                     key=f"curr_{item}",
                     use_container_width=True,
@@ -227,7 +227,7 @@ lang_choice = st.radio(
                     st.session_state.curriculum = item
                     st.rerun()
     st.markdown("---")
-    if st.button("➕ New Chat", use_container_width=True):
+if st.button("➕ New Chat", use_container_width=True):
         st.session_state.messages = []
         st.rerun()
 lang = st.session_state.lang
