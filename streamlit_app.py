@@ -213,8 +213,8 @@ if lang_choice != st.session_state.lang:
         st.session_state.lang = lang_choice
         st.session_state.messages = []  # reset chat on lang change
         st.rerun()
-    st.markdown("---")
-    st.markdown("#### 📚 Curricula")
+        st.markdown("---")
+st.markdown("#### 📚 Curricula")
 for cat, items in CURRICULUMS.items():
     with st.expander(cat, expanded=False):
         for item in items:
