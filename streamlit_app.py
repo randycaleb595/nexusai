@@ -200,7 +200,7 @@ with st.sidebar:
 st.markdown(
     f"<small style='color:#00FF0080'>{t('tagline')}</small>",unsafe_allow_html=True,
 )
-    st.markdown("---")
+st.markdown("---")
     # Language picker
     st.markdown("#### 🌐 Language")
     lang_choice = st.radio(
