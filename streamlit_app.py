@@ -202,7 +202,7 @@ st.markdown(
 )
 st.markdown("---")
     # Language picker
-    st.markdown("#### 🌐 Language")
+st.markdown("#### 🌐 Language")
     lang_choice = st.radio(
         "Select language",
         options=list(LANG_LABELS.keys()),
