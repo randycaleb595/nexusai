@@ -9,6 +9,7 @@ LANG_LABELS = {
     "Chinese":   "🇨🇳 Chinese",
     "Arabic":    "🇸🇦 Arabic",
     "German":    "🇩🇪 German",
+    "Luganda":   "LU Luganda",
 }
 CURRICULUMS = {
     "Global & Institutional": [
@@ -52,6 +53,7 @@ WELCOME_MESSAGES = {
     "Chinese":   "👋 你好！我是 **Nexus AI** — 你的数学辅导老师。问我任何数学问题！",
     "Arabic":    "👋 مرحباً! أنا **Nexus AI** — مدرسك للرياضيات. اسألني أي سؤال!",
     "German":    "👋 Hallo! Ich bin **Nexus AI** — dein Mathe-Tutor. Frag mich alles!",
+    "Luganda":   "👋 Mulamwa! Nze Nexus AI — omusomesa wo ow'ekibalo omwangu. Mbuuza kyonna ku kibalo era ngya kukinyonnyola mu ngeri ennyangu!",
 }
 NOT_MATH_MESSAGES = {
     "English":   "⚠️ Please ask a math-related question (e.g. fractions, algebra, geometry).",
@@ -60,6 +62,7 @@ NOT_MATH_MESSAGES = {
     "Chinese":   "⚠️ 请提出与数学相关的问题。",
     "Arabic":    "⚠️ يرجى طرح سؤال متعلق بالرياضيات.",
     "German":    "⚠️ Bitte stellen Sie eine mathematische Frage.",
+    "Luganda":   "⚠️ Mwattu buuza ekibuzo ku kibalo (okugeza: emiganyulo, algebra, oba geometry)",
 }
 st.set_page_config(
     page_title="Nexus AI — Math Tutor",
