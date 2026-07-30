@@ -201,10 +201,9 @@ st.markdown(
     f"<small style='color:#00FF0080'>{t('tagline')}</small>",unsafe_allow_html=True,
 )
 st.markdown("---")
-    # Language picker
 st.markdown("#### 🌐 Language")
     lang_choice = st.radio(
-        "Select language",
+     "Select language",
         options=list(LANG_LABELS.keys()),
         format_func=lambda x: LANG_LABELS[x],
         index=list(LANG_LABELS.keys()).index(st.session_state.lang),
