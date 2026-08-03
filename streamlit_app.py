@@ -217,7 +217,7 @@ if lang_choice != st.session_state.lang:
 st.markdown("#### 📚 Curricula")
 for cat, items in CURRICULUMS.items():
     with st.expander(cat, expanded=False):
-        for item in items:
+    for item in items:
         if st.button(
                     item,
                     key=f"curr_{item}",
