@@ -215,7 +215,12 @@ if lang_choice != st.session_state.lang:
         st.rerun()
         st.markdown("---")
 st.markdown("#### 📚 Curricula")
-for cat, items in CURRICULUMS.items(): with st.expander(cat, expanded=False): for item in items: if st.button( item, key=f"curr_{item}", use_container_width=True, type="primary" if st.session_state.curriculum == item else "secondary", ): st.session_state.curriculum = item st.rerun()
+for cat, items in CURRICULUMS.items(): 
+   with st.expander(cat, expanded=False): 
+        for item in items: 
+            if st.button( item, key=f"curr_{item}", use_container_width=True, type="primary" 
+            if st.session_state.curriculum == item 
+                         else "secondary", ): st.session_state.curriculum = item st.rerun()
     st.markdown("---")
 if st.button("➕ New Chat", use_container_width=True):
         st.session_state.messages = []
