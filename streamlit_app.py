@@ -215,27 +215,7 @@ if lang_choice != st.session_state.lang:
         st.rerun()
         st.markdown("---")
 st.markdown("#### 📚 Curricula")
-# 1. Define a callback function to handle the state change
-def select_curriculum(item_name):
-    st.session_state.curriculum = item_name
-    
-for cat, items in CURRICULUMS.items(): 
-    with st.expander(cat, expanded=False): 
-        for item in items: 
-            # Determine the button style
-            is_selected = st.session_state.get("curriculum") == item
-            btn_type = "primary" if is_selected else "secondary"
-            
-            # Pass the function and arguments directly to the button
-            st.button(
-                item, 
-                key=f"curr_{item}", 
-                use_container_width=True, 
-                type=btn_type,
-                on_click=select_curriculum,
-                args=(item,)
-            )
-
+for cat, items in CURRICULUMS.items(): with st.expander(cat, expanded=False): for item in items: if st.button( item, key=f"curr_{item}", use_container_width=True, type="primary" if st.session_state.curriculum == item else "secondary", ): st.session_state.curriculum = item st.rerun()
     st.markdown("---")
 if st.button("➕ New Chat", use_container_width=True):
         st.session_state.messages = []
