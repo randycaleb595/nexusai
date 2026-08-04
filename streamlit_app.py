@@ -301,7 +301,7 @@ if user_input:
     history = []
 answer = ask_nexus(query, history, curriculum, lang)
 
-    with st.chat_message("user"):
+with st.chat_message("user"):
         st.markdown(query)
     st.session_state.messages.append({"role": "user", "content": query})
 
