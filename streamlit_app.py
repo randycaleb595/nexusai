@@ -240,9 +240,22 @@ with st.sidebar:
 
     st.markdown("---")
 
-    if st.button("➕ New Chat", use_container_width=True):
+    if st.button(UI_TEXT[st.session_state.lang]["new_chat"], use_container_width=True):
         st.session_state.messages = []
         st.rerun()
+    if len(st.session_state.messages) > 0:
+        chat_export = ""
+        for m in st.session_state.messages:
+            role = "Student" if m["role"] == "user" else "Nexus AI"
+            chat_export += f"{role}: {m['content']}\n\n"
+            
+        st.download_button(
+            label="📥 Download Notes",
+            data=chat_export,
+            file_name="nexus_math_notes.txt",
+            mime="text/plain",
+            use_container_width=True
+        )      
 
     st.markdown("---")
 
