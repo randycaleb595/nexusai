@@ -216,9 +216,9 @@ with st.sidebar:
 )
     st.markdown("---")
 
-    st.markdown("#### 🌐 Language")
+   st.markdown(f"#### {t('language')}")
     lang_choice = st.radio(
-        "Select language",
+      t("select_language"),
         options=list(LANG_LABELS.keys()),
         format_func=lambda x: LANG_LABELS[x],
         index=list(LANG_LABELS.keys()).index(st.session_state.lang),
@@ -231,7 +231,7 @@ with st.sidebar:
 
     st.markdown("---")
 
-    st.markdown("#### 📚 Curricula")
+    st.markdown(f"#### {t('curricula')}")
     for cat, items in CURRICULUMS.items():
         with st.expander(cat, expanded=False):
             for item in items:
@@ -252,7 +252,7 @@ with st.sidebar:
     if len(st.session_state.messages) > 0:
         chat_export = ""
         for m in st.session_state.messages:
-            role = "Student" if m["role"] == "user" else "Nexus AI"
+            role = "Student" if m["role"] == "user" else "Caesura Tutor"
             chat_export += f"{role}: {m['content']}\n\n"
             
         st.download_button(
@@ -267,13 +267,13 @@ with st.sidebar:
 
 
 if not st.session_state.messages:
-    st.markdown(f"<h1 style='text-align:center;font-size:3.5rem;letter-spacing:0.3em;color:#00FF00'>NEXUS AI</h1>", unsafe_allow_html=True)
+    st.markdown(f"<h1 style='text-align:center;font-size:3.5rem;letter-spacing:0.3em;color:#00FF00'>CAESURA TUTOR</h1>", unsafe_allow_html=True)
     st.markdown(f"<p style='text-align:center;color:#00FF0080'>Math Made Easier &nbsp;·&nbsp; 📌 {curriculum}</p>", unsafe_allow_html=True)
     st.markdown("")
     with st.chat_message("assistant"):
         st.markdown(WELCOME_MESSAGES[lang])
 else:
-    st.markdown(f"<h4 style='color:#00FF00;letter-spacing:0.2em'>NEXUS AI</h4>", unsafe_allow_html=True)
+    st.markdown(f"<h4 style='color:#00FF00;letter-spacing:0.2em'>CAESURA TUTOR</h4>", unsafe_allow_html=True)
     for msg in st.session_state.messages:
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
