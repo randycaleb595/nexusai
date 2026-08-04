@@ -41,14 +41,7 @@ CURRICULUMS = {
 }
 
 MATH_KEYWORDS = [
-    "math","algebra","calculus","geometry","fraction","integer","equation","theorem","product","summation"
-    "matrix","vector","derivative","integral","angle","triangle","polygon","arithmetic","quadratic"
-    "trigonometry","ratio","percent","probability","statistics","function","graph","+","-","=","math_contest"
-    "exponent","logarithm","prime","factor","division","multiplier","sum","subtraction","factorial"
-    "addition","multiplication","number","digit","set","proof","limit","series","/","vector","equation","theorem",
-    "sequence","polynomial","quadratic","linear","circle","sphere","cube","parabola","scale","solution"
-    "what","how","why","explain","solve","find","calculate","show","define","mean","translation",
-    "is","are","does","example","formula","rule","property","simplify","expand","plus", "minus",
+    "math","algebra","calculus","geometry","fraction","integer","equation","theorem","product","summation","matrix","vector","derivative","integral","angle","triangle","polygon","arithmetic","quadratic","trigonometry","ratio","percent","probability","statistics","function","graph","+","-","=","math contest","exponent","logarithm","prime","factor","division","multiplier","sum","subtraction","factorial","addition","multiplication","number","digit","set","proof","limit","series","/","vector","equation","theorem","sequence","polynomial","quadratic","linear","circle","sphere","cube","parabola","scale","solution","explain","solve","find","calculate","show","define","mean","translation","is","are","does","example","formula","rule","property","simplify","expand","plus", "minus",
 ]
 UI_TEXT = {
     "English": {
