@@ -136,6 +136,9 @@ UI_TEXT = {
     }
 }
 
+def t(key):
+    return UI_TEXT[st.session_state.lang][key]
+    
 WELCOME_MESSAGES = {
     "English":   "👋 Hi! I'm **Caesura Tutor** — your friendly math tutor. Ask me anything about maths and I'll explain it simply. Try: *\"What is a fraction?\"* or *\"How do I solve 2x + 3 = 7?\"*",
     "Kiswahili": "👋 Habari! Mimi ni **Caesura Tutor** — mwalimu wako wa hisabati. Niulize chochote kuhusu hisabati!",
