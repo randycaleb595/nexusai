@@ -210,7 +210,10 @@ with st.sidebar:
         st.markdown(f"<small style='color:#00FF0080'>👋 {st.session_state.user_email}</small>", unsafe_allow_html=True)
 
     st.markdown("## 🟢 CAESURA TUTOR")
-    st.markdown("<small style='color:#00FF0080'>MATH MADE EASIER</small>", unsafe_allow_html=True)
+    st.markdown(
+    f"<small style='color:#00FF0080'>{t('tagline')}</small>",
+    unsafe_allow_html=True,
+)
     st.markdown("---")
 
     st.markdown("#### 🌐 Language")
