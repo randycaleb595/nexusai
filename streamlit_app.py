@@ -41,13 +41,13 @@ CURRICULUMS = {
 }
 
 MATH_KEYWORDS = [
-    "math","algebra","calculus","geometry","fraction","integer","equation","theorem",
-    "matrix","vector","derivative","integral","angle","triangle","polygon","arithmetic",
-    "trigonometry","ratio","percent","probability","statistics","function","graph",
-    "exponent","logarithm","prime","factor","division","multiplier","sum","subtraction",
-    "addition","multiplication","number","digit","set","proof","limit","series",
-    "sequence","polynomial","quadratic","linear","circle","sphere","cube","parabola",
-    "what","how","why","explain","solve","find","calculate","show","define","mean",
+    "math","algebra","calculus","geometry","fraction","integer","equation","theorem","product","summation"
+    "matrix","vector","derivative","integral","angle","triangle","polygon","arithmetic","quadratic"
+    "trigonometry","ratio","percent","probability","statistics","function","graph","+","-","=","math_contest"
+    "exponent","logarithm","prime","factor","division","multiplier","sum","subtraction","factorial"
+    "addition","multiplication","number","digit","set","proof","limit","series","/","vector","equation","theorem",
+    "sequence","polynomial","quadratic","linear","circle","sphere","cube","parabola","scale","solution"
+    "what","how","why","explain","solve","find","calculate","show","define","mean","translation",
     "is","are","does","example","formula","rule","property","simplify","expand","plus", "minus",
 ]
 UI_TEXT = {
@@ -137,13 +137,13 @@ UI_TEXT = {
 }
 
 WELCOME_MESSAGES = {
-    "English":   "👋 Hi! I'm **Nexus AI** — your friendly math tutor. Ask me anything about maths and I'll explain it simply. Try: *\"What is a fraction?\"* or *\"How do I solve 2x + 3 = 7?\"*",
-    "Kiswahili": "👋 Habari! Mimi ni **Nexus AI** — mwalimu wako wa hisabati. Niulize chochote kuhusu hisabati!",
-    "French":    "👋 Bonjour! Je suis **Nexus AI** — votre tuteur en mathématiques. Posez-moi n'importe quelle question!",
-    "Chinese":   "👋 你好！我是 **Nexus AI** — 你的数学辅导老师。问我任何数学问题！",
-    "Arabic":    "👋 مرحباً! أنا **Nexus AI** — مدرسك للرياضيات. اسألني أي سؤال!",
-    "German":    "👋 Hallo! Ich bin **Nexus AI** — dein Mathe-Tutor. Frag mich alles!",
-    "Luganda":   "👋 Ki kati! Nze Nexus AI — omusomesa wo ow'okubala. Mbuuza kyonna ky'oyagala!"
+    "English":   "👋 Hi! I'm **Caesura Tutor** — your friendly math tutor. Ask me anything about maths and I'll explain it simply. Try: *\"What is a fraction?\"* or *\"How do I solve 2x + 3 = 7?\"*",
+    "Kiswahili": "👋 Habari! Mimi ni **Caesura Tutor** — mwalimu wako wa hisabati. Niulize chochote kuhusu hisabati!",
+    "French":    "👋 Bonjour! Je suis **Caesura Tutor** — votre tuteur en mathématiques. Posez-moi n'importe quelle question!",
+    "Chinese":   "👋 你好！我是 **Caesura Tutor** — 你的数学辅导老师。问我任何数学问题！",
+    "Arabic":    "👋 مرحباً! أنا **Caesura Tutor** — مدرسك للرياضيات. اسألني أي سؤال!",
+    "German":    "👋 Hallo! Ich bin **Caesura Tutor** — dein Mathe-Tutor. Frag mich alles!",
+    "Luganda":   "👋 Ki kati! Nze **Caesura Tutor** — omusomesa wo ow'okubala. Mbuuza kyonna ky'oyagala!"
 }
 
 NOT_MATH_MESSAGES = {
@@ -166,7 +166,7 @@ PLACEHOLDER_MAP = {
    "Luganda": "Baako ekibuuzo ky'okubala ky'obuuza...",
 }
 
-st.set_page_config(page_title="Nexus Tutor — Math Tutor", page_icon="🟢", layout="wide")
+st.set_page_config(page_title="Caesura Tutor — Math Tutor", page_icon="🟢", layout="wide")
 
 st.markdown("""
 <style>
@@ -206,7 +206,7 @@ with st.sidebar:
     if st.session_state.get("user_email"):
         st.markdown(f"<small style='color:#00FF0080'>👋 {st.session_state.user_email}</small>", unsafe_allow_html=True)
 
-    st.markdown("## 🟢 NEXUS TUTOR")
+    st.markdown("## 🟢 CAESURA TUTOR")
     st.markdown("<small style='color:#00FF0080'>MATH MADE EASIER</small>", unsafe_allow_html=True)
     st.markdown("---")
 
@@ -303,7 +303,7 @@ if user_input:
         history = history[-6:]
 
         with st.chat_message("assistant"):
-            with st.spinner("Nexus is thinking..."):
+            with st.spinner("Caesura is thinking..."):
                 answer = ask_nexus(query, history, curriculum, lang)
                 st.markdown(answer)
                 st.session_state.messages.append({"role": "assistant", "content": answer})
