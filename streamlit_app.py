@@ -216,7 +216,7 @@ with st.sidebar:
 )
     st.markdown("---")
 
-   st.markdown(f"#### {t('language')}")
+        st.markdown(f"#### {t('language')}")
     lang_choice = st.radio(
       t("select_language"),
         options=list(LANG_LABELS.keys()),
