@@ -268,7 +268,10 @@ with st.sidebar:
 
 if not st.session_state.messages:
     st.markdown(f"<h1 style='text-align:center;font-size:3.5rem;letter-spacing:0.3em;color:#00FF00'>CAESURA TUTOR</h1>", unsafe_allow_html=True)
-    st.markdown(f"<p style='text-align:center;color:#00FF0080'>Math Made Easier &nbsp;·&nbsp; 📌 {curriculum}</p>", unsafe_allow_html=True)
+    st.markdown(
+    f"<p style='text-align:center;color:#00FF0080'>{t('tagline')} &nbsp;·&nbsp; {curriculum}</p>",
+    unsafe_allow_html=True,
+)
     st.markdown("")
     with st.chat_message("assistant"):
         st.markdown(WELCOME_MESSAGES[lang])
@@ -288,11 +291,11 @@ def ask_nexus(query, history, curriculum, lang):
             timeout=120,
         )
         if resp.status_code != 200:
-            return f"❌ Something went wrong (HTTP {resp.status_code})."
+            return f"{t('http_error')} (HTTP {resp.status_code})."
         data = resp.json()
-        return data.get("answer") or "Sorry, no answer returned."
+        return data.get("answer") or t("no_answer")
     except requests.exceptions.RequestException as e:
-        return f"❌ Network error: `{e}`"
+        return f"{t('network_error')}: `{e}`"
     except Exception as e:
         return f"❌ Error: `{e}`"
 
@@ -322,7 +325,7 @@ if user_input:
         history = history[-6:]
 
         with st.chat_message("assistant"):
-            with st.spinner("Caesura is thinking..."):
+            with st.spinner(t("thinking")):
                 answer = ask_nexus(query, history, curriculum, lang)
                 st.markdown(answer)
                 st.session_state.messages.append({"role": "assistant", "content": answer})
