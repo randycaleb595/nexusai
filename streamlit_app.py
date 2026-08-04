@@ -48,7 +48,7 @@ MATH_KEYWORDS = [
     "addition","multiplication","number","digit","set","proof","limit","series",
     "sequence","polynomial","quadratic","linear","circle","sphere","cube","parabola",
     "what","how","why","explain","solve","find","calculate","show","define","mean",
-    "is","are","does","example","formula","rule","property","simplify","expand",
+    "is","are","does","example","formula","rule","property","simplify","expand","plus", "minus",
 ]
 UI_TEXT = {
     "English": {
