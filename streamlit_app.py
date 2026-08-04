@@ -298,7 +298,7 @@ user_input = st.chat_input(PLACEHOLDER_MAP.get(lang, "Ask a math question..."))
 if user_input:
     query = user_input.strip()
     lower = query.lower()
-        history = []
+    history = []
 answer = ask_nexus(query, history, curriculum, lang)
 
     with st.chat_message("user"):
