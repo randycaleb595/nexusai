@@ -49,6 +49,91 @@ MATH_KEYWORDS = [
     "what","how","why","explain","solve","find","calculate","show","define","mean",
     "is","are","does","example","formula","rule","property","simplify","expand",
 ]
+UI_TEXT = {
+    "English": {
+        "tagline": "Math Made Easier",
+        "language": "🌐 Language",
+        "select_language": "Select language",
+        "curricula": "📚 Curricula",
+        "new_chat": "➕ New Chat",
+        "thinking": "Nexus is thinking...",
+        "no_answer": "Sorry, no answer returned.",
+        "http_error": "❌ Something went wrong",
+        "network_error": "❌ Network error",
+    },
+
+    "Kiswahili": {
+        "tagline": "Hisabati Imerahisishwa",
+        "language": "🌐 Lugha",
+        "select_language": "Chagua lugha",
+        "curricula": "📚 Mitaala",
+        "new_chat": "➕ Mazungumzo Mapya",
+        "thinking": "Nexus anafikiria...",
+        "no_answer": "Samahani, hakuna jibu lililopatikana.",
+        "http_error": "❌ Hitilafu imetokea",
+        "network_error": "❌ Hitilafu ya mtandao",
+    },
+
+    "French": {
+        "tagline": "Les maths rendues faciles",
+        "language": "🌐 Langue",
+        "select_language": "Choisir une langue",
+        "curricula": "📚 Programmes",
+        "new_chat": "➕ Nouvelle discussion",
+        "thinking": "Nexus réfléchit...",
+        "no_answer": "Désolé, aucune réponse n'a été trouvée.",
+        "http_error": "❌ Une erreur est survenue",
+        "network_error": "❌ Erreur réseau",
+    },
+
+    "Chinese": {
+        "tagline": "让数学更简单",
+        "language": "🌐 语言",
+        "select_language": "选择语言",
+        "curricula": "📚 课程体系",
+        "new_chat": "➕ 新聊天",
+        "thinking": "Nexus 正在思考...",
+        "no_answer": "抱歉，没有返回答案。",
+        "http_error": "❌ 出现错误",
+        "network_error": "❌ 网络错误",
+    },
+
+    "Arabic": {
+        "tagline": "الرياضيات أصبحت أسهل",
+        "language": "🌐 اللغة",
+        "select_language": "اختر اللغة",
+        "curricula": "📚 المناهج",
+        "new_chat": "➕ محادثة جديدة",
+        "thinking": "نيكسس يفكر...",
+        "no_answer": "عذراً، لم يتم العثور على إجابة.",
+        "http_error": "❌ حدث خطأ",
+        "network_error": "❌ خطأ في الشبكة",
+    },
+
+    "German": {
+        "tagline": "Mathematik leicht gemacht",
+        "language": "🌐 Sprache",
+        "select_language": "Sprache auswählen",
+        "curricula": "📚 Lehrpläne",
+        "new_chat": "➕ Neuer Chat",
+        "thinking": "Nexus denkt nach...",
+        "no_answer": "Entschuldigung, keine Antwort erhalten.",
+        "http_error": "❌ Etwas ist schiefgelaufen",
+        "network_error": "❌ Netzwerkfehler",
+    },
+
+    "Luganda": {
+        "tagline": "Ekibalo Kyanguyiziddwa",
+        "language": "🌐 Olulimi",
+        "select_language": "Londa olulimi",
+        "curricula": "📚 Enteekateeka y'Okusoma",
+        "new_chat": "➕ Okunyumya Okuggya",
+        "thinking": "Nexus alowooza...",
+        "no_answer": "Nsonyiwa, tewali kyaddamu.",
+        "http_error": "❌ Waliwo ensobi",
+        "network_error": "❌ Ensobi ku mutimbagano",
+    }
+}
 
 WELCOME_MESSAGES = {
     "English":   "👋 Hi! I'm **Nexus AI** — your friendly math tutor. Ask me anything about maths and I'll explain it simply. Try: *\"What is a fraction?\"* or *\"How do I solve 2x + 3 = 7?\"*",
@@ -57,6 +142,7 @@ WELCOME_MESSAGES = {
     "Chinese":   "👋 你好！我是 **Nexus AI** — 你的数学辅导老师。问我任何数学问题！",
     "Arabic":    "👋 مرحباً! أنا **Nexus AI** — مدرسك للرياضيات. اسألني أي سؤال!",
     "German":    "👋 Hallo! Ich bin **Nexus AI** — dein Mathe-Tutor. Frag mich alles!",
+    "Luganda":   "👋 Ki kati! Nze Nexus AI — omusomesa wo ow'okubala. Mbuuza kyonna ky'oyagala!"
 }
 
 NOT_MATH_MESSAGES = {
