@@ -11,6 +11,7 @@ LANG_LABELS = {
     "Chinese":   "🇨🇳 Chinese",
     "Arabic":    "🇸🇦 Arabic",
     "German":    "🇩🇪 German",
+    "Luganda":    "LU  Luganda",
 }
 
 CURRICULUMS = {
@@ -152,6 +153,7 @@ NOT_MATH_MESSAGES = {
     "Chinese":   "⚠️ 请提出与数学相关的问题。",
     "Arabic":    "⚠️ يرجى طرح سؤال متعلق بالرياضيات.",
     "German":    "⚠️ Bitte stellen Sie eine mathematische Frage.",
+    "Luganda":   "⚠️ Mukwano, baako ekibuuzo ky'okubala ky'obuuza.",
 }
 
 PLACEHOLDER_MAP = {
@@ -161,9 +163,10 @@ PLACEHOLDER_MAP = {
     "Chinese": "提问数学问题...",
     "Arabic": "اسأل سؤالاً رياضياً...",
     "German": "Stellen Sie eine Mathe-Frage...",
+   "Luganda": "Baako ekibuuzo ky'okubala ky'obuuza...",
 }
 
-st.set_page_config(page_title="Nexus AI — Math Tutor", page_icon="🟢", layout="wide")
+st.set_page_config(page_title="Nexus Tutor — Math Tutor", page_icon="🟢", layout="wide")
 
 st.markdown("""
 <style>
@@ -203,7 +206,7 @@ with st.sidebar:
     if st.session_state.get("user_email"):
         st.markdown(f"<small style='color:#00FF0080'>👋 {st.session_state.user_email}</small>", unsafe_allow_html=True)
 
-    st.markdown("## 🟢 NEXUS AI")
+    st.markdown("## 🟢 NEXUS TUTOR")
     st.markdown("<small style='color:#00FF0080'>MATH MADE EASIER</small>", unsafe_allow_html=True)
     st.markdown("---")
 
