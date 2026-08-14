@@ -161,7 +161,7 @@ with st.sidebar:
 
 if not st.session_state.messages:
     st.markdown(f"<h1 style='text-align:center;font-size:3.5rem;letter-spacing:0.3em;color:#00FF00'>CEASURA TUTOR</h1>", unsafe_allow_html=True)
-    st.markdown(f"<p style='text-align:center;color:#00FF0080'>Math Made Easier &nbsp;·&nbsp; 📌 {curriculum}</p>", unsafe_allow_html=True)
+    st.markdown(f"<p style='text-align:center;color:#00FF0080'>Math Made Easier &nbsp;·&nbsp;  {curriculum}</p>", unsafe_allow_html=True)
     st.markdown("")
     with st.chat_message("assistant"):
         st.markdown(WELCOME_MESSAGES[lang])
