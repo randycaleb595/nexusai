@@ -300,7 +300,6 @@ if user_input:
     lower = query.lower()
     history = []
     answer = ask_nexus(query, history, curriculum, lang)
-import streamlit as st
 
 # 1. Initialize the chat history in session state if it doesn't exist
 if "messages" not in st.session_state:
@@ -331,12 +330,19 @@ if query := st.chat_input("What is your question?"):
 if not is_math:
     err = NOT_MATH_MESSAGES[lang]
     with st.chat_message("assistant"):
-        st.warning(err)
-        st.session_state.messages.append({"role": "assistant", "content": err})
+        st.markdown(err)  # Use st.markdown instead of st.warning
+    # Save it to history normally
+    st.session_state.messages.append({"role": "assistant", "content": err})
 else:
     # 1. Extract conversational history cleanly (excluding the active user message)
     # Since we already appended the active user query, history is everything BEFORE it.
-    raw_history = st.session_state.messages[:-1]
+    raw_history = st.session_state.messages[:-1]if not is_math:
+    err = NOT_MATH_MESSAGES[lang]
+    with st.chat_message("assistant"):
+        st.markdown(err)  # Use st.markdown instead of st.warning
+    # Save it to history normally
+    st.session_state.messages.append({"role": "assistant", "content": err})
+
     
     formatted_history = []
     for i in range(len(raw_history)):
