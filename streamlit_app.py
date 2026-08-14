@@ -325,7 +325,7 @@ if query := st.chat_input("What is your question?"):
     #     response = "This is a placeholder response."
     #     st.markdown(response)
     #     st.session_state.messages.append({"role": "assistant", "content": response})
-
+)
 
 if not is_math:
     err = NOT_MATH_MESSAGES[lang]
