@@ -11,6 +11,7 @@ LANG_LABELS = {
     "Chinese":   "🇨🇳 Chinese",
     "Arabic":    "🇸🇦 Arabic",
     "German":    "🇩🇪 German",
+    "Luganda":    "LU  Luganda",
 }
 
 CURRICULUMS = {
@@ -57,6 +58,7 @@ WELCOME_MESSAGES = {
     "Chinese":   "👋 你好！我是 **Ceasura Tutor** — 你的数学辅导老师。问我任何数学问题！",
     "Arabic":    "👋 مرحباً! أنا **Ceasura Tutor** — مدرسك للرياضيات. اسألني أي سؤال!",
     "German":    "👋 Hallo! Ich bin **Ceasura Tutor** — dein Mathe-Tutor. Frag mich alles!",
+    "Luganda":   "👋 Ki kati! Nze **Caesura Tutor** — omusomesa wo ow'okubala. Mbuuza kyonna ky'oyagala!"
 }
 
 NOT_MATH_MESSAGES = {
@@ -66,6 +68,7 @@ NOT_MATH_MESSAGES = {
     "Chinese":   "⚠️ 请提出与数学相关的问题。",
     "Arabic":    "⚠️ يرجى طرح سؤال متعلق بالرياضيات.",
     "German":    "⚠️ Bitte stellen Sie eine mathematische Frage.",
+    "Luganda":   "⚠️ Mukwano, baako ekibuuzo ky'okubala ky'obuuza.",
 }
 
 PLACEHOLDER_MAP = {
@@ -74,8 +77,99 @@ PLACEHOLDER_MAP = {
     "French": "Posez une question de maths...",
     "Chinese": "提问数学问题...",
     "Arabic": "اسأل سؤالاً رياضياً...",
-    "German": "Stellen Sie eine Mathe-Frage...",
+    "German": "Stellen Sie eine Mathe-Frage...", 
+    "Luganda": "Baako ekibuuzo ky'okubala ky'obuuza...",
 }
+
+UI_TEXT = {
+    "English": {
+        "tagline": "Math Made Easier",
+        "language": "🌐 Language",
+        "select_language": "Select language",
+        "curricula": "📚 Curricula",
+        "new_chat": "➕ New Chat",
+        "thinking": "Caesura is thinking...",
+        "no_answer": "Sorry, no answer returned.",
+        "http_error": "❌ Something went wrong",
+        "network_error": "❌ Network error",
+    },
+
+    "Kiswahili": {
+        "tagline": "Hisabati Imerahisishwa",
+        "language": "🌐 Lugha",
+        "select_language": "Chagua lugha",
+        "curricula": "📚 Mitaala",
+        "new_chat": "➕ Mazungumzo Mapya",
+        "thinking": "Caesura anafikiria...",
+        "no_answer": "Samahani, hakuna jibu lililopatikana.",
+        "http_error": "❌ Hitilafu imetokea",
+        "network_error": "❌ Hitilafu ya mtandao",
+    },
+
+    "French": {
+        "tagline": "Les maths rendues faciles",
+        "language": "🌐 Langue",
+        "select_language": "Choisir une langue",
+        "curricula": "📚 Programmes",
+        "new_chat": "➕ Nouvelle discussion",
+        "thinking": "Caesura réfléchit...",
+        "no_answer": "Désolé, aucune réponse n'a été trouvée.",
+        "http_error": "❌ Une erreur est survenue",
+        "network_error": "❌ Erreur réseau",
+    },
+
+    "Chinese": {
+        "tagline": "让数学更简单",
+        "language": "🌐 语言",
+        "select_language": "选择语言",
+        "curricula": "📚 课程体系",
+        "new_chat": "➕ 新聊天",
+        "thinking": "Nexus 正在思考...",
+        "no_answer": "抱歉，没有返回答案。",
+        "http_error": "❌ 出现错误",
+        "network_error": "❌ 网络错误",
+    },
+
+    "Arabic": {
+        "tagline": "الرياضيات أصبحت أسهل",
+        "language": "🌐 اللغة",
+        "select_language": "اختر اللغة",
+        "curricula": "📚 المناهج",
+        "new_chat": "➕ محادثة جديدة",
+        "thinking": "نيكسس يفكر...",
+        "no_answer": "عذراً، لم يتم العثور على إجابة.",
+        "http_error": "❌ حدث خطأ",
+        "network_error": "❌ خطأ في الشبكة",
+    },
+
+    "German": {
+        "tagline": "Mathematik leicht gemacht",
+        "language": "🌐 Sprache",
+        "select_language": "Sprache auswählen",
+        "curricula": "📚 Lehrpläne",
+        "new_chat": "➕ Neuer Chat",
+        "thinking": "Nexus denkt nach...",
+        "no_answer": "Entschuldigung, keine Antwort erhalten.",
+        "http_error": "❌ Etwas ist schiefgelaufen",
+        "network_error": "❌ Netzwerkfehler",
+    },
+
+    "Luganda": {
+        "tagline": "Ekibalo Kyanguyiziddwa",
+        "language": "🌐 Olulimi",
+        "select_language": "Londa olulimi",
+        "curricula": "📚 Enteekateeka y'Okusoma",
+        "new_chat": "➕ Okunyumya Okuggya",
+        "thinking": "Nexus alowooza...",
+        "no_answer": "Nsonyiwa, tewali kyaddamu.",
+        "http_error": "❌ Waliwo ensobi",
+        "network_error": "❌ Ensobi ku mutimbagano",
+    }
+}
+
+def t(key):
+    return UI_TEXT[st.session_state.lang][key]
+
 
 st.set_page_config(page_title="Ceasura Tutor — Math Tutor", page_icon="🟢", layout="wide")
 
