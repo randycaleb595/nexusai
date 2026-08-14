@@ -300,10 +300,33 @@ if user_input:
     lower = query.lower()
     history = []
     answer = ask_nexus(query, history, curriculum, lang)
+import streamlit as st
 
-with st.chat_message("user"):
-    st.markdown(query)
+# 1. Initialize the chat history in session state if it doesn't exist
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+# 2. Render existing chat history whenever the app reruns
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+# 3. Capture new user input
+if query := st.chat_input("What is your question?"):
+    
+    # Render the new user message immediately
+    with st.chat_message("user"): 
+        st.markdown(query) 
+        
+    # Append the new user message to the history
     st.session_state.messages.append({"role": "user", "content": query})
+    
+    # --- Your assistant / LLM logic goes here ---
+    # with st.chat_message("assistant"):
+    #     response = "This is a placeholder response."
+    #     st.markdown(response)
+    #     st.session_state.messages.append({"role": "assistant", "content": response})
+
 
 if not is_math:
     err = NOT_MATH_MESSAGES[lang]
