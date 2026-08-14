@@ -220,7 +220,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ── Session state (single initialization) ───────────────────
 if "messages" not in st.session_state:
     st.session_[state.me](https://state.me)ssages = []
 if "lang" not in st.session_state:
@@ -228,8 +227,6 @@ if "lang" not in st.session_state:
 if "curriculum" not in st.session_state:
     st.session_state.curriculum = "Illustrative Mathematics (IM)"
 
-lang = st.session_state.lang
-curriculum = st.session_state.curriculum
 
 # ── Sidebar ─────────────────────────────────────────────────
 with st.sidebar:
