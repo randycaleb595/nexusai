@@ -334,12 +334,48 @@ if not is_math:
         st.warning(err)
         st.session_state.messages.append({"role": "assistant", "content": err})
 else:
-    history = []
-    msgs = [m for m in st.session_state.messages[:-1]]
-    for i, m in enumerate(msgs):
-        if m["role"] == "user" and i + 1 < len(msgs) and msgs[i+1]["role"] == "assistant":
-            history.append({"question": m["content"], "answer": msgs[i+1]["content"]})
-    history = history[-6:]
+    # 1. Extract conversational history cleanly (excluding the active user message)
+    # Since we already appended the active user query, history is everything BEFORE it.
+    raw_history = st.session_state.messages[:-1]
+    
+    formatted_history = []
+    for i in range(len(raw_history)):
+        # Look for a user message that has a matching assistant response immediately after it
+        if raw_history[i]["role"] == "user" and i + 1 < len(raw_history):
+            if raw_history[i+1]["role"] == "assistant":
+                # Ensure we skip warning notifications or error texts
+                if not raw_history[i+1]["content"].startswith("⚠️"):
+                    formatted_history.append({
+                        "question": raw_history[i]["content"],
+                        "answer": raw_history[i+1]["content"]
+                    })
+                    
+    # 2. Slice out only the last 6 valid structural exchanges
+    chat_history_payload = formatted_history[-6:]
+
+    # 3. Trigger the network post request to Nexus AI
+    with st.chat_message("assistant"):
+        with st.spinner(t("thinking")):
+            payload = {
+                "query": query, # The current active math question
+                "language": lang,
+                "curriculum": curriculum,
+                "history": chat_history_payload # The last 6 structured QA pairs
+            }
+            try:
+                response = requests.post(ASK_NEXUS_URL, json=payload, timeout=30)
+                if response.status_code == 200:
+                    result_data = response.json()
+                    # Safe extraction fallback pattern
+                    answer = result_data.get("answer") or result_data.get("response") or t("no_answer")
+                    
+                    st.markdown(answer)
+                    st.session_state.messages.append({"role": "assistant", "content": answer})
+                else:
+                    st.error(f"{t('http_error')} (Status: {response.status_code})")
+            except requests.exceptions.RequestException:
+                st.error(t("network_error"))
+
 
     with st.chat_message("assistant"):
         with st.spinner(t("thinking")):
