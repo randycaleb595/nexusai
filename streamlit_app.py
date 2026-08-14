@@ -256,9 +256,7 @@ with st.sidebar:
 
     st.markdown("---")
 
-    if st.button(UI_TEXT[st.session_state.lang]["new_chat"], use_container_width=True):
-        st.session_[state.me](https://state.me)ssages = []
-        st.rerun()
+   
 
     if len(st.session_[state.me](https://state.me)ssages) > 0:
         chat_export = ""
