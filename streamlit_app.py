@@ -1,16 +1,8 @@
 import streamlit as st
 import requests
 
-# ✅ Replace with your published Base44 app domain (no trailing slash)
 APP_DOMAIN = "https://YOUR_APP_DOMAIN.base44.app"
 ASK_NEXUS_URL = f"{APP_DOMAIN}/functions/askNexus"
-
-# --- Multi-user accounts (add as many as you want) ---
-VALID_USERS = {
-    "ceasura@tutor.com": "ceasura123",
-    "teacher@tutor.com": "teacher456",
-    "student@tutor.com": "math2026",
-}
 
 LANG_LABELS = {
     "English":   "🇬🇧 English",
@@ -85,10 +77,8 @@ PLACEHOLDER_MAP = {
     "German": "Stellen Sie eine Mathe-Frage...",
 }
 
-# --- Page config ---
 st.set_page_config(page_title="Ceasura Tutor — Math Tutor", page_icon="🟢", layout="wide")
 
-# --- Theme ---
 st.markdown("""
 <style>
   html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
@@ -109,7 +99,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# --- Session state init ---
 if "authed" not in st.session_state:
     st.session_state.authed = False
 if "user_email" not in st.session_state:
@@ -121,30 +110,6 @@ if "lang" not in st.session_state:
 if "curriculum" not in st.session_state:
     st.session_state.curriculum = "Illustrative Mathematics (IM)"
 
-# ===================== SIGN-IN GATE =====================
-if not st.session_state.authed:
-    st.markdown("<style> [data-testid='stSidebar'] {display:none;} </style>", unsafe_allow_html=True)
-
-    st.markdown("<h1 style='text-align:center;color:#00FF00;letter-spacing:0.3em'>CEASURA TUTOR</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align:center;color:#00FF0080'>Math Made Easier</p>", unsafe_allow_html=True)
-
-    with st.form("login", clear_on_submit=False):
-        email = st.text_input("Email")
-        password = st.text_input("Password", type="password")
-        submitted = st.form_submit_button("Sign In", use_container_width=True)
-        if submitted:
-            if email in VALID_USERS and VALID_USERS[email] == password:
-                st.session_state.authed = True
-                st.session_state.user_email = email
-                st.session_state.messages = []
-                st.session_state.lang = "English"
-                st.session_state.curriculum = "Illustrative Mathematics (IM)"
-                st.rerun()
-            else:
-                st.error("❌ Invalid email or password.")
-    st.stop()
-
-# ===================== MAIN APP =====================
 lang = st.session_state.lang
 curriculum = st.session_state.curriculum
 
@@ -188,22 +153,12 @@ with st.sidebar:
 
     st.markdown("---")
 
-    # New Chat button
     if st.button("➕ New Chat", use_container_width=True):
         st.session_state.messages = []
         st.rerun()
 
     st.markdown("---")
 
-    # Log Out button
-    if st.button("🚪 Log Out", use_container_width=True):
-        st.session_state.authed = False
-        st.session_state.user_email = ""
-        st.session_state.messages = []
-        st.rerun()
-
-
-# --- Hero / chat display ---
 if not st.session_state.messages:
     st.markdown(f"<h1 style='text-align:center;font-size:3.5rem;letter-spacing:0.3em;color:#00FF00'>CEASURA TUTOR</h1>", unsafe_allow_html=True)
     st.markdown(f"<p style='text-align:center;color:#00FF0080'>Math Made Easier &nbsp;·&nbsp; 📌 {curriculum}</p>", unsafe_allow_html=True)
@@ -217,7 +172,6 @@ else:
             st.markdown(msg["content"])
 
 
-# --- Ask Ceasura via deployed Base44 function ---
 def ask_ceasura(query, history, curriculum, lang):
     try:
         resp = requests.post(
@@ -236,7 +190,6 @@ def ask_ceasura(query, history, curriculum, lang):
         return f"❌ Error: `{e}`"
 
 
-# --- Chat input ---
 user_input = st.chat_input(PLACEHOLDER_MAP.get(lang, "Ask a math question..."))
 
 if user_input:
