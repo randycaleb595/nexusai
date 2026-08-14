@@ -267,6 +267,3 @@ if user_input:
                 answer = ask_ceasura(query, history, curriculum, lang)
                 st.markdown(answer)
                 st.session_state.messages.append({"role": "assistant", "content": answer})
-```
-
-Every "Nexus AI" reference is now "Ceasura Tutor" (titles, welcome lines, sidebar, spinner, page title). Run it with `streamlit run streamlit_app.py` after swapping in your domain.
