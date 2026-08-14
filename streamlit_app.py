@@ -196,21 +196,6 @@ def ask_caesura(query, history, curriculum, lang):
         return f"❌ Error: `{e}`"
 
 
-def build_history(messages):
-    """Extract the last 6 valid Q&A pairs from session messages."""
-    formatted = []
-    for i in range(len(messages) - 1):
-        if (
-            messages[i]["role"] == "user"
-            and messages[i + 1]["role"] == "assistant"
-            and not messages[i + 1]["content"].startswith("⚠️")
-        ):
-            [formatted.app](https://formatted.app)end({
-                "question": messages[i]["content"],
-                "answer": messages[i + 1]["content"],
-            })
-    return formatted[-6:]
-
 
 # ── Page config ──────────────────────────────────────────────
 st.set_page_config(page_title="Caesura Tutor — Math Tutor", page_icon="🟢", layout="wide")
