@@ -305,21 +305,21 @@ with st.chat_message("user"):
         st.markdown(query)
 st.session_state.messages.append({"role": "user", "content": query})
 
-    if not is_math:
-        err = NOT_MATH_MESSAGES[lang]
-        with st.chat_message("assistant"):
-            st.warning(err)
+if not is_math:
+    err = NOT_MATH_MESSAGES[lang]
+    with st.chat_message("assistant"):
+        st.warning(err)
         st.session_state.messages.append({"role": "assistant", "content": err})
-    else:
-        history = []
-        msgs = [m for m in st.session_state.messages[:-1]]
-        for i, m in enumerate(msgs):
-            if m["role"] == "user" and i + 1 < len(msgs) and msgs[i+1]["role"] == "assistant":
-                history.append({"question": m["content"], "answer": msgs[i+1]["content"]})
-        history = history[-6:]
+else:
+    history = []
+    msgs = [m for m in st.session_state.messages[:-1]]
+    for i, m in enumerate(msgs):
+        if m["role"] == "user" and i + 1 < len(msgs) and msgs[i+1]["role"] == "assistant":
+            history.append({"question": m["content"], "answer": msgs[i+1]["content"]})
+    history = history[-6:]
 
-        with st.chat_message("assistant"):
-            with st.spinner(t("thinking")):
-                answer = ask_nexus(query, history, curriculum, lang)
-                st.markdown(answer)
-                st.session_state.messages.append({"role": "assistant", "content": answer})
+    with st.chat_message("assistant"):
+        with st.spinner(t("thinking")):
+            answer = ask_nexus(query, history, curriculum, lang)
+            st.markdown(answer)
+            st.session_state.messages.append({"role": "assistant", "content": answer})
