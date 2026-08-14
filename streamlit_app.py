@@ -302,7 +302,7 @@ if user_input:
     answer = ask_nexus(query, history, curriculum, lang)
 
 with st.chat_message("user"):
-    st.markdown(query)
+st.markdown(query)
 st.session_state.messages.append({"role": "user", "content": query})
 
 if not is_math:
