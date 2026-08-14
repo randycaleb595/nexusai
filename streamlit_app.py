@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 APP_DOMAIN = "https://nexusai123.base44.app"
-ASK_NEXUS_URL = f"{APP_DOMAIN}/functions/askNexus"
+ASK_CAESURA_URL = f"{APP_DOMAIN}/functions/askNexus"
 
 LANG_LABELS = {
     "English":   "🇬🇧 English",
@@ -92,7 +92,7 @@ UI_TEXT = {
         "select_language": "选择语言",
         "curricula": "📚 课程体系",
         "new_chat": "➕ 新聊天",
-        "thinking": "Nexus 正在思考...",
+        "thinking": "Caesura 正在思考...",
         "no_answer": "抱歉，没有返回答案。",
         "http_error": "❌ 出现错误",
         "network_error": "❌ 网络错误",
@@ -103,7 +103,7 @@ UI_TEXT = {
         "select_language": "اختر اللغة",
         "curricula": "📚 المناهج",
         "new_chat": "➕ محادثة جديدة",
-        "thinking": "نيكسس يفكر...",
+        "thinking": "Caesura يفكر...",
         "no_answer": "عذراً، لم يتم العثور على إجابة.",
         "http_error": "❌ حدث خطأ",
         "network_error": "❌ خطأ في الشبكة",
@@ -114,7 +114,7 @@ UI_TEXT = {
         "select_language": "Sprache auswählen",
         "curricula": "📚 Lehrpläne",
         "new_chat": "➕ Neuer Chat",
-        "thinking": "Nexus denkt nach...",
+        "thinking": "Caesura denkt nach...",
         "no_answer": "Entschuldigung, keine Antwort erhalten.",
         "http_error": "❌ Etwas ist schiefgelaufen",
         "network_error": "❌ Netzwerkfehler",
@@ -125,7 +125,7 @@ UI_TEXT = {
         "select_language": "Londa olulimi",
         "curricula": "📚 Enteekateeka y'Okusoma",
         "new_chat": "➕ Okunyumya Okuggya",
-        "thinking": "Nexus alowooza...",
+        "thinking": "Caesura alowooza...",
         "no_answer": "Nsonyiwa, tewali kyaddamu.",
         "http_error": "❌ Waliwo ensobi",
         "network_error": "❌ Ensobi ku mutimbagano",
@@ -173,11 +173,11 @@ def is_math_query(text):
     return any(kw in lower for kw in MATH_KEYWORDS)
 
 
-def ask_nexus(query, history, curriculum, lang):
-    """Send the query to the Nexus backend and return the answer."""
+def ask_caesura(query, history, curriculum, lang):
+    """Send the query to the Caesura backend and return the answer."""
     try:
         resp = requests.post(
-            ASK_NEXUS_URL,
+            ASK_CAESURA_URL,
             json={
                 "query": query,
                 "history": history,
@@ -297,7 +297,7 @@ with st.sidebar:
         st.download_button(
             label="📥 Download Notes",
             data=chat_export,
-            file_name="nexus_math_notes.txt",
+            file_name="caesura_math_notes.txt",
             mime="text/plain",
             use_container_width=True,
         )
@@ -346,6 +346,6 @@ if query:
 
         with st.chat_message("assistant"):
             with st.spinner(t("thinking")):
-                answer = ask_nexus(query, chat_history, curriculum, lang)
+                answer = ask_caesura(query, chat_history, curriculum, lang)
                 st.markdown(answer)
         st.session_[state.messages.app](https://state.messages.app)end({"role": "assistant", "content": answer})
