@@ -239,12 +239,7 @@ with st.sidebar:
         index=list(LANG_LABELS.keys()).index(st.session_state.lang),
         label_visibility="collapsed",
     )
-    if lang_choice != st.session_state.lang:
-        st.session_state.lang = lang_choice
-        st.session_[state.me](https://state.me)ssages = []
-        st.rerun()
-
-    st.markdown("---")
+  
 
     st.markdown(f"#### {t('curricula')}")
     for cat, items in CURRICULUMS.items():
