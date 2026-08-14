@@ -1,6 +1,3 @@
-Here's the full `streamlit_app.py` with **Nexus AI → Ceasura Tutor** replaced everywhere (branding, welcome messages, system prompt, spinner, titles):
-
-```python
 import streamlit as st
 import requests
 
