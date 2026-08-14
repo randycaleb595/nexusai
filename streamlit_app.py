@@ -299,7 +299,7 @@ if user_input:
     query = user_input.strip()
     lower = query.lower()
     history = []
-answer = ask_nexus(query, history, curriculum, lang)
+    answer = ask_nexus(query, history, curriculum, lang)
 
 with st.chat_message("user"):
         st.markdown(query)
