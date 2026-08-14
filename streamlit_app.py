@@ -11,7 +11,7 @@ LANG_LABELS = {
     "Chinese":   "🇨🇳 Chinese",
     "Arabic":    "🇸🇦 Arabic",
     "German":    "🇩🇪 German",
-    "Luganda":    "LU  Luganda",
+    "Luganda":   "LU  Luganda",
 }
 
 CURRICULUMS = {
@@ -41,8 +41,17 @@ CURRICULUMS = {
 }
 
 MATH_KEYWORDS = [
-    "math","algebra","calculus","geometry","fraction","integer","equation","theorem","product","summation","matrix","vector","derivative","integral","angle","triangle","polygon","arithmetic","quadratic","trigonometry","ratio","percent","probability","statistics","function","graph","+","-","=","math contest","exponent","logarithm","prime","factor","division","multiplier","sum","subtraction","factorial","addition","multiplication","number","digit","set","proof","limit","series","/","vector","equation","theorem","sequence","polynomial","quadratic","linear","circle","sphere","cube","parabola","scale","solution","explain","solve","find","calculate","show","define","mean","translation","is","are","does","example","formula","rule","property","simplify","expand","plus", "minus",
+    "math","algebra","calculus","geometry","fraction","integer","equation",
+    "theorem","product","summation","matrix","vector","derivative","integral",
+    "angle","triangle","polygon","arithmetic","quadratic","trigonometry",
+    "ratio","percent","probability","statistics","function","graph",
+    "exponent","logarithm","prime","factor","division","sum","subtraction",
+    "factorial","addition","multiplication","number","digit","set","proof",
+    "limit","series","polynomial","linear","circle","sphere","cube","parabola",
+    "scale","formula","simplify","expand","plus","minus","solve","find",
+    "calculate","show","define","mean","example","rule","property",
 ]
+
 UI_TEXT = {
     "English": {
         "tagline": "Math Made Easier",
@@ -55,7 +64,6 @@ UI_TEXT = {
         "http_error": "❌ Something went wrong",
         "network_error": "❌ Network error",
     },
-
     "Kiswahili": {
         "tagline": "Hisabati Imerahisishwa",
         "language": "🌐 Lugha",
@@ -67,7 +75,6 @@ UI_TEXT = {
         "http_error": "❌ Hitilafu imetokea",
         "network_error": "❌ Hitilafu ya mtandao",
     },
-
     "French": {
         "tagline": "Les maths rendues faciles",
         "language": "🌐 Langue",
@@ -79,7 +86,6 @@ UI_TEXT = {
         "http_error": "❌ Une erreur est survenue",
         "network_error": "❌ Erreur réseau",
     },
-
     "Chinese": {
         "tagline": "让数学更简单",
         "language": "🌐 语言",
@@ -91,7 +97,6 @@ UI_TEXT = {
         "http_error": "❌ 出现错误",
         "network_error": "❌ 网络错误",
     },
-
     "Arabic": {
         "tagline": "الرياضيات أصبحت أسهل",
         "language": "🌐 اللغة",
@@ -103,7 +108,6 @@ UI_TEXT = {
         "http_error": "❌ حدث خطأ",
         "network_error": "❌ خطأ في الشبكة",
     },
-
     "German": {
         "tagline": "Mathematik leicht gemacht",
         "language": "🌐 Sprache",
@@ -115,7 +119,6 @@ UI_TEXT = {
         "http_error": "❌ Etwas ist schiefgelaufen",
         "network_error": "❌ Netzwerkfehler",
     },
-
     "Luganda": {
         "tagline": "Ekibalo Kyanguyiziddwa",
         "language": "🌐 Olulimi",
@@ -129,9 +132,6 @@ UI_TEXT = {
     }
 }
 
-def t(key):
-    return UI_TEXT[st.session_state.lang][key]
-    
 WELCOME_MESSAGES = {
     "English":   "👋 Hi! I'm **Caesura Tutor** — your friendly math tutor. Ask me anything about maths and I'll explain it simply. Try: *\"What is a fraction?\"* or *\"How do I solve 2x + 3 = 7?\"*",
     "Kiswahili": "👋 Habari! Mimi ni **Caesura Tutor** — mwalimu wako wa hisabati. Niulize chochote kuhusu hisabati!",
@@ -139,7 +139,7 @@ WELCOME_MESSAGES = {
     "Chinese":   "👋 你好！我是 **Caesura Tutor** — 你的数学辅导老师。问我任何数学问题！",
     "Arabic":    "👋 مرحباً! أنا **Caesura Tutor** — مدرسك للرياضيات. اسألني أي سؤال!",
     "German":    "👋 Hallo! Ich bin **Caesura Tutor** — dein Mathe-Tutor. Frag mich alles!",
-    "Luganda":   "👋 Ki kati! Nze **Caesura Tutor** — omusomesa wo ow'okubala. Mbuuza kyonna ky'oyagala!"
+    "Luganda":   "👋 Ki kati! Nze **Caesura Tutor** — omusomesa wo ow'okubala. Mbuuza kyonna ky'oyagala!",
 }
 
 NOT_MATH_MESSAGES = {
@@ -159,9 +159,60 @@ PLACEHOLDER_MAP = {
     "Chinese": "提问数学问题...",
     "Arabic": "اسأل سؤالاً رياضياً...",
     "German": "Stellen Sie eine Mathe-Frage...",
-   "Luganda": "Baako ekibuuzo ky'okubala ky'obuuza...",
+    "Luganda": "Baako ekibuuzo ky'okubala ky'obuuza...",
 }
 
+
+def t(key):
+    return UI_TEXT[st.session_state.lang][key]
+
+
+def is_math_query(text):
+    """Check if the query contains math-related keywords."""
+    lower = text.lower()
+    return any(kw in lower for kw in MATH_KEYWORDS)
+
+
+def ask_nexus(query, history, curriculum, lang):
+    """Send the query to the Nexus backend and return the answer."""
+    try:
+        resp = requests.post(
+            ASK_NEXUS_URL,
+            json={
+                "query": query,
+                "history": history,
+                "curriculum": curriculum,
+                "lang": lang,
+            },
+            timeout=120,
+        )
+        if resp.status_code != 200:
+            return f"{t('http_error')} (HTTP {resp.status_code})."
+        data = resp.json()
+        return data.get("answer") or data.get("response") or t("no_answer")
+    except requests.exceptions.RequestException as e:
+        return f"{t('network_error')}: `{e}`"
+    except Exception as e:
+        return f"❌ Error: `{e}`"
+
+
+def build_history(messages):
+    """Extract the last 6 valid Q&A pairs from session messages."""
+    formatted = []
+    for i in range(len(messages) - 1):
+        if (
+            messages[i]["role"] == "user"
+            and messages[i + 1]["role"] == "assistant"
+            and not messages[i + 1]["content"].startswith("⚠️")
+        ):
+            [formatted.app](https://formatted.app)end({
+                "question": messages[i]["content"],
+                "answer": messages[i + 1]["content"],
+            })
+    return formatted[-6:]
+
+
+# ── Page config ──────────────────────────────────────────────
 st.set_page_config(page_title="Caesura Tutor — Math Tutor", page_icon="🟢", layout="wide")
 
 st.markdown("""
@@ -184,12 +235,9 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-if "authed" not in st.session_state:
-    st.session_state.authed = False
-if "user_email" not in st.session_state:
-    st.session_state.user_email = ""
+# ── Session state (single initialization) ───────────────────
 if "messages" not in st.session_state:
-    st.session_state.messages = []
+    st.session_[state.me](https://state.me)ssages = []
 if "lang" not in st.session_state:
     st.session_state.lang = "English"
 if "curriculum" not in st.session_state:
@@ -198,20 +246,18 @@ if "curriculum" not in st.session_state:
 lang = st.session_state.lang
 curriculum = st.session_state.curriculum
 
+# ── Sidebar ─────────────────────────────────────────────────
 with st.sidebar:
-    if st.session_state.get("user_email"):
-        st.markdown(f"<small style='color:#00FF0080'>👋 {st.session_state.user_email}</small>", unsafe_allow_html=True)
-
     st.markdown("## 🟢 CAESURA TUTOR")
     st.markdown(
-    f"<small style='color:#00FF0080'>{t('tagline')}</small>",
-    unsafe_allow_html=True,
-)
+        f"<small style='color:#00FF0080'>{t('tagline')}</small>",
+        unsafe_allow_html=True,
+    )
     st.markdown("---")
 
     st.markdown(f"#### {t('language')}")
     lang_choice = st.radio(
-      t("select_language"),
+        t("select_language"),
         options=list(LANG_LABELS.keys()),
         format_func=lambda x: LANG_LABELS[x],
         index=list(LANG_LABELS.keys()).index(st.session_state.lang),
@@ -219,7 +265,7 @@ with st.sidebar:
     )
     if lang_choice != st.session_state.lang:
         st.session_state.lang = lang_choice
-        st.session_state.messages = []
+        st.session_[state.me](https://state.me)ssages = []
         st.rerun()
 
     st.markdown("---")
@@ -240,151 +286,66 @@ with st.sidebar:
     st.markdown("---")
 
     if st.button(UI_TEXT[st.session_state.lang]["new_chat"], use_container_width=True):
-        st.session_state.messages = []
+        st.session_[state.me](https://state.me)ssages = []
         st.rerun()
-    if len(st.session_state.messages) > 0:
+
+    if len(st.session_[state.me](https://state.me)ssages) > 0:
         chat_export = ""
-        for m in st.session_state.messages:
+        for m in st.session_[state.me](https://state.me)ssages:
             role = "Student" if m["role"] == "user" else "Caesura Tutor"
             chat_export += f"{role}: {m['content']}\n\n"
-            
         st.download_button(
             label="📥 Download Notes",
             data=chat_export,
             file_name="nexus_math_notes.txt",
             mime="text/plain",
-            use_container_width=True
-        )      
+            use_container_width=True,
+        )
 
     st.markdown("---")
 
-
-if not st.session_state.messages:
-    st.markdown(f"<h1 style='text-align:center;font-size:3.5rem;letter-spacing:0.3em;color:#00FF00'>CAESURA TUTOR</h1>", unsafe_allow_html=True)
+# ── Main content area ───────────────────────────────────────
+if not st.session_[state.me](https://state.me)ssages:
     st.markdown(
-    f"<p style='text-align:center;color:#00FF0080'>{t('tagline')} &nbsp;·&nbsp; {curriculum}</p>",
-    unsafe_allow_html=True,
-)
+        "<h1 style='text-align:center;font-size:3.5rem;letter-spacing:0.3em;color:#00FF00'>CAESURA TUTOR</h1>",
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        f"<p style='text-align:center;color:#00FF0080'>{t('tagline')} &nbsp;·&nbsp; {curriculum}</p>",
+        unsafe_allow_html=True,
+    )
     st.markdown("")
     with st.chat_message("assistant"):
         st.markdown(WELCOME_MESSAGES[lang])
 else:
-    st.markdown(f"<h4 style='color:#00FF00;letter-spacing:0.2em'>CAESURA TUTOR</h4>", unsafe_allow_html=True)
-    for msg in st.session_state.messages:
+    st.markdown(
+        "<h4 style='color:#00FF00;letter-spacing:0.2em'>CAESURA TUTOR</h4>",
+        unsafe_allow_html=True,
+    )
+    for msg in st.session_[state.me](https://state.me)ssages:
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
 
+# ── Single chat input ────────────────────────────────────────
+query = st.chat_input(PLACEHOLDER_MAP.get(lang, "Ask a math question..."))
 
-def ask_nexus(query, history, curriculum, lang):
-    try:
-        resp = requests.post(
-            ASK_NEXUS_URL,
-            json={"query": query, "history": history,
-                  "curriculum": curriculum, "lang": lang},
-            timeout=120,
-        )
-        if resp.status_code != 200:
-            return f"{t('http_error')} (HTTP {resp.status_code})."
-        data = resp.json()
-        return data.get("answer") or t("no_answer")
-    except requests.exceptions.RequestException as e:
-        return f"{t('network_error')}: `{e}`"
-    except Exception as e:
-        return f"❌ Error: `{e}`"
+if query:
+    query = query.strip()
 
+    with st.chat_message("user"):
+        st.markdown(query)
+    st.session_[state.messages.app](https://state.messages.app)end({"role": "user", "content": query})
 
-user_input = st.chat_input(PLACEHOLDER_MAP.get(lang, "Ask a math question..."))
+    if not is_math_query(query):
+        err = NOT_MATH_MESSAGES[lang]
+        with st.chat_message("assistant"):
+            st.markdown(err)
+        st.session_[state.messages.app](https://state.messages.app)end({"role": "assistant", "content": err})
+    else:
+        chat_history = build_history(st.session_[state.me](https://state.me)ssages[:-1])
 
-if user_input:
-    query = user_input.strip()
-    lower = query.lower()
-    history = []
-    answer = ask_nexus(query, history, curriculum, lang)
-
-# 1. Initialize the chat history in session state if it doesn't exist
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-
-# 2. Render existing chat history whenever the app reruns
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
-
-# 3. Capture new user input
-if query := st.chat_input("What is your question?"):
-    
-    # Render the new user message immediately
-    with st.chat_message("user"): 
-        st.markdown(query) 
-        
-    # Append the new user message to the history
-    st.session_state.messages.append({"role": "user", "content": query})
-    
-    # --- Your assistant / LLM logic goes here ---
-    # with st.chat_message("assistant"):
-    #     response = "This is a placeholder response."
-    #     st.markdown(response)
-    #     st.session_state.messages.append({"role": "assistant", "content": response})
-)
-
-if not is_math:
-    err = NOT_MATH_MESSAGES[lang]
-    with st.chat_message("assistant"):
-        st.markdown(err)  # Use st.markdown instead of st.warning
-    # Save it to history normally
-    st.session_state.messages.append({"role": "assistant", "content": err})
-else:
-    # 1. Extract conversational history cleanly (excluding the active user message)
-    # Since we already appended the active user query, history is everything BEFORE it.
-    raw_history = st.session_state.messages[:-1]if not is_math:
-    err = NOT_MATH_MESSAGES[lang]
-    with st.chat_message("assistant"):
-        st.markdown(err)  # Use st.markdown instead of st.warning
-    # Save it to history normally
-    st.session_state.messages.append({"role": "assistant", "content": err})
-
-    
-    formatted_history = []
-    for i in range(len(raw_history)):
-        # Look for a user message that has a matching assistant response immediately after it
-        if raw_history[i]["role"] == "user" and i + 1 < len(raw_history):
-            if raw_history[i+1]["role"] == "assistant":
-                # Ensure we skip warning notifications or error texts
-                if not raw_history[i+1]["content"].startswith("⚠️"):
-                    formatted_history.append({
-                        "question": raw_history[i]["content"],
-                        "answer": raw_history[i+1]["content"]
-                    })
-                    
-    # 2. Slice out only the last 6 valid structural exchanges
-    chat_history_payload = formatted_history[-6:]
-
-    # 3. Trigger the network post request to Nexus AI
-    with st.chat_message("assistant"):
-        with st.spinner(t("thinking")):
-            payload = {
-                "query": query, # The current active math question
-                "language": lang,
-                "curriculum": curriculum,
-                "history": chat_history_payload # The last 6 structured QA pairs
-            }
-            try:
-                response = requests.post(ASK_NEXUS_URL, json=payload, timeout=30)
-                if response.status_code == 200:
-                    result_data = response.json()
-                    # Safe extraction fallback pattern
-                    answer = result_data.get("answer") or result_data.get("response") or t("no_answer")
-                    
-                    st.markdown(answer)
-                    st.session_state.messages.append({"role": "assistant", "content": answer})
-                else:
-                    st.error(f"{t('http_error')} (Status: {response.status_code})")
-            except requests.exceptions.RequestException:
-                st.error(t("network_error"))
-
-
-    with st.chat_message("assistant"):
-        with st.spinner(t("thinking")):
-            answer = ask_nexus(query, history, curriculum, lang)
-            st.markdown(answer)
-            st.session_state.messages.append({"role": "assistant", "content": answer})
+        with st.chat_message("assistant"):
+            with st.spinner(t("thinking")):
+                answer = ask_nexus(query, chat_history, curriculum, lang)
+                st.markdown(answer)
+        st.session_[state.messages.app](https://state.messages.app)end({"role": "assistant", "content": answer})
