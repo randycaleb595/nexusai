@@ -303,7 +303,7 @@ if user_input:
 
 with st.chat_message("user"):
     st.markdown(query)
-st.session_state.messages.append({"role": "user", "content": query})
+    st.session_state.messages.append({"role": "user", "content": query})
 
 if not is_math:
     err = NOT_MATH_MESSAGES[lang]
