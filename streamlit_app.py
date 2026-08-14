@@ -1,8 +1,19 @@
+Here's the full `streamlit_app.py` with **Nexus AI → Ceasura Tutor** replaced everywhere (branding, welcome messages, system prompt, spinner, titles):
+
+```python
 import streamlit as st
 import requests
 
-APP_DOMAIN = "https://nexusai123.base44.app"
-ASK_CAESURA_URL = f"{APP_DOMAIN}/functions/askNexus"
+# ✅ Replace with your published Base44 app domain (no trailing slash)
+APP_DOMAIN = "https://YOUR_APP_DOMAIN.base44.app"
+ASK_NEXUS_URL = f"{APP_DOMAIN}/functions/askNexus"
+
+# --- Multi-user accounts (add as many as you want) ---
+VALID_USERS = {
+    "ceasura@tutor.com": "ceasura123",
+    "teacher@tutor.com": "teacher456",
+    "student@tutor.com": "math2026",
+}
 
 LANG_LABELS = {
     "English":   "🇬🇧 English",
@@ -11,7 +22,6 @@ LANG_LABELS = {
     "Chinese":   "🇨🇳 Chinese",
     "Arabic":    "🇸🇦 Arabic",
     "German":    "🇩🇪 German",
-    "Luganda":   "LU  Luganda",
 }
 
 CURRICULUMS = {
@@ -41,105 +51,23 @@ CURRICULUMS = {
 }
 
 MATH_KEYWORDS = [
-    "math","algebra","calculus","geometry","fraction","integer","equation",
-    "theorem","product","summation","matrix","vector","derivative","integral",
-    "angle","triangle","polygon","arithmetic","quadratic","trigonometry",
-    "ratio","percent","probability","statistics","function","graph",
-    "exponent","logarithm","prime","factor","division","sum","subtraction",
-    "factorial","addition","multiplication","number","digit","set","proof",
-    "limit","series","polynomial","linear","circle","sphere","cube","parabola",
-    "scale","formula","simplify","expand","plus","minus","solve","find",
-    "calculate","show","define","mean","example","rule","property",
+    "math","algebra","calculus","geometry","fraction","integer","equation","theorem",
+    "matrix","vector","derivative","integral","angle","triangle","polygon","arithmetic",
+    "trigonometry","ratio","percent","probability","statistics","function","graph",
+    "exponent","logarithm","prime","factor","division","multiplier","sum","subtraction",
+    "addition","multiplication","number","digit","set","proof","limit","series",
+    "sequence","polynomial","quadratic","linear","circle","sphere","cube","parabola",
+    "what","how","why","explain","solve","find","calculate","show","define","mean",
+    "is","are","does","example","formula","rule","property","simplify","expand",
 ]
 
-UI_TEXT = {
-    "English": {
-        "tagline": "Math Made Easier",
-        "language": "🌐 Language",
-        "select_language": "Select language",
-        "curricula": "📚 Curricula",
-        "new_chat": "➕ New Chat",
-        "thinking": "Caesura is thinking...",
-        "no_answer": "Sorry, no answer returned.",
-        "http_error": "❌ Something went wrong",
-        "network_error": "❌ Network error",
-    },
-    "Kiswahili": {
-        "tagline": "Hisabati Imerahisishwa",
-        "language": "🌐 Lugha",
-        "select_language": "Chagua lugha",
-        "curricula": "📚 Mitaala",
-        "new_chat": "➕ Mazungumzo Mapya",
-        "thinking": "Caesura anafikiria...",
-        "no_answer": "Samahani, hakuna jibu lililopatikana.",
-        "http_error": "❌ Hitilafu imetokea",
-        "network_error": "❌ Hitilafu ya mtandao",
-    },
-    "French": {
-        "tagline": "Les maths rendues faciles",
-        "language": "🌐 Langue",
-        "select_language": "Choisir une langue",
-        "curricula": "📚 Programmes",
-        "new_chat": "➕ Nouvelle discussion",
-        "thinking": "Caesura réfléchit...",
-        "no_answer": "Désolé, aucune réponse n'a été trouvée.",
-        "http_error": "❌ Une erreur est survenue",
-        "network_error": "❌ Erreur réseau",
-    },
-    "Chinese": {
-        "tagline": "让数学更简单",
-        "language": "🌐 语言",
-        "select_language": "选择语言",
-        "curricula": "📚 课程体系",
-        "new_chat": "➕ 新聊天",
-        "thinking": "Caesura 正在思考...",
-        "no_answer": "抱歉，没有返回答案。",
-        "http_error": "❌ 出现错误",
-        "network_error": "❌ 网络错误",
-    },
-    "Arabic": {
-        "tagline": "الرياضيات أصبحت أسهل",
-        "language": "🌐 اللغة",
-        "select_language": "اختر اللغة",
-        "curricula": "📚 المناهج",
-        "new_chat": "➕ محادثة جديدة",
-        "thinking": "Caesura يفكر...",
-        "no_answer": "عذراً، لم يتم العثور على إجابة.",
-        "http_error": "❌ حدث خطأ",
-        "network_error": "❌ خطأ في الشبكة",
-    },
-    "German": {
-        "tagline": "Mathematik leicht gemacht",
-        "language": "🌐 Sprache",
-        "select_language": "Sprache auswählen",
-        "curricula": "📚 Lehrpläne",
-        "new_chat": "➕ Neuer Chat",
-        "thinking": "Caesura denkt nach...",
-        "no_answer": "Entschuldigung, keine Antwort erhalten.",
-        "http_error": "❌ Etwas ist schiefgelaufen",
-        "network_error": "❌ Netzwerkfehler",
-    },
-    "Luganda": {
-        "tagline": "Ekibalo Kyanguyiziddwa",
-        "language": "🌐 Olulimi",
-        "select_language": "Londa olulimi",
-        "curricula": "📚 Enteekateeka y'Okusoma",
-        "new_chat": "➕ Okunyumya Okuggya",
-        "thinking": "Caesura alowooza...",
-        "no_answer": "Nsonyiwa, tewali kyaddamu.",
-        "http_error": "❌ Waliwo ensobi",
-        "network_error": "❌ Ensobi ku mutimbagano",
-    }
-}
-
 WELCOME_MESSAGES = {
-    "English":   "👋 Hi! I'm **Caesura Tutor** — your friendly math tutor. Ask me anything about maths and I'll explain it simply. Try: *\"What is a fraction?\"* or *\"How do I solve 2x + 3 = 7?\"*",
-    "Kiswahili": "👋 Habari! Mimi ni **Caesura Tutor** — mwalimu wako wa hisabati. Niulize chochote kuhusu hisabati!",
-    "French":    "👋 Bonjour! Je suis **Caesura Tutor** — votre tuteur en mathématiques. Posez-moi n'importe quelle question!",
-    "Chinese":   "👋 你好！我是 **Caesura Tutor** — 你的数学辅导老师。问我任何数学问题！",
-    "Arabic":    "👋 مرحباً! أنا **Caesura Tutor** — مدرسك للرياضيات. اسألني أي سؤال!",
-    "German":    "👋 Hallo! Ich bin **Caesura Tutor** — dein Mathe-Tutor. Frag mich alles!",
-    "Luganda":   "👋 Ki kati! Nze **Caesura Tutor** — omusomesa wo ow'okubala. Mbuuza kyonna ky'oyagala!",
+    "English":   "👋 Hi! I'm **Ceasura Tutor** — your friendly math tutor. Ask me anything about maths and I'll explain it simply. Try: *\"What is a fraction?\"* or *\"How do I solve 2x + 3 = 7?\"*",
+    "Kiswahili": "👋 Habari! Mimi ni **Ceasura Tutor** — mwalimu wako wa hisabati. Niulize chochote kuhusu hisabati!",
+    "French":    "👋 Bonjour! Je suis **Ceasura Tutor** — votre tuteur en mathématiques. Posez-moi n'importe quelle question!",
+    "Chinese":   "👋 你好！我是 **Ceasura Tutor** — 你的数学辅导老师。问我任何数学问题！",
+    "Arabic":    "👋 مرحباً! أنا **Ceasura Tutor** — مدرسك للرياضيات. اسألني أي سؤال!",
+    "German":    "👋 Hallo! Ich bin **Ceasura Tutor** — dein Mathe-Tutor. Frag mich alles!",
 }
 
 NOT_MATH_MESSAGES = {
@@ -149,7 +77,6 @@ NOT_MATH_MESSAGES = {
     "Chinese":   "⚠️ 请提出与数学相关的问题。",
     "Arabic":    "⚠️ يرجى طرح سؤال متعلق بالرياضيات.",
     "German":    "⚠️ Bitte stellen Sie eine mathematische Frage.",
-    "Luganda":   "⚠️ Mukwano, baako ekibuuzo ky'okubala ky'obuuza.",
 }
 
 PLACEHOLDER_MAP = {
@@ -159,47 +86,12 @@ PLACEHOLDER_MAP = {
     "Chinese": "提问数学问题...",
     "Arabic": "اسأل سؤالاً رياضياً...",
     "German": "Stellen Sie eine Mathe-Frage...",
-    "Luganda": "Baako ekibuuzo ky'okubala ky'obuuza...",
 }
 
+# --- Page config ---
+st.set_page_config(page_title="Ceasura Tutor — Math Tutor", page_icon="🟢", layout="wide")
 
-def t(key):
-    return UI_TEXT[st.session_state.lang][key]
-
-
-def is_math_query(text):
-    """Check if the query contains math-related keywords."""
-    lower = text.lower()
-    return any(kw in lower for kw in MATH_KEYWORDS)
-
-
-def ask_caesura(query, history, curriculum, lang):
-    """Send the query to the Caesura backend and return the answer."""
-    try:
-        resp = requests.post(
-            ASK_CAESURA_URL,
-            json={
-                "query": query,
-                "history": history,
-                "curriculum": curriculum,
-                "lang": lang,
-            },
-            timeout=120,
-        )
-        if resp.status_code != 200:
-            return f"{t('http_error')} (HTTP {resp.status_code})."
-        data = resp.json()
-        return data.get("answer") or data.get("response") or t("no_answer")
-    except requests.exceptions.RequestException as e:
-        return f"{t('network_error')}: `{e}`"
-    except Exception as e:
-        return f"❌ Error: `{e}`"
-
-
-
-# ── Page config ──────────────────────────────────────────────
-st.set_page_config(page_title="Caesura Tutor — Math Tutor", page_icon="🟢", layout="wide")
-
+# --- Theme ---
 st.markdown("""
 <style>
   html, body, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
@@ -220,28 +112,71 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+# --- Session state init ---
+if "authed" not in st.session_state:
+    st.session_state.authed = False
+if "user_email" not in st.session_state:
+    st.session_state.user_email = ""
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+if "lang" not in st.session_state:
+    st.session_state.lang = "English"
+if "curriculum" not in st.session_state:
+    st.session_state.curriculum = "Illustrative Mathematics (IM)"
 
+# ===================== SIGN-IN GATE =====================
+if not st.session_state.authed:
+    st.markdown("<style> [data-testid='stSidebar'] {display:none;} </style>", unsafe_allow_html=True)
 
-# ── Sidebar ─────────────────────────────────────────────────
+    st.markdown("<h1 style='text-align:center;color:#00FF00;letter-spacing:0.3em'>CEASURA TUTOR</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align:center;color:#00FF0080'>Math Made Easier</p>", unsafe_allow_html=True)
+
+    with st.form("login", clear_on_submit=False):
+        email = st.text_input("Email")
+        password = st.text_input("Password", type="password")
+        submitted = st.form_submit_button("Sign In", use_container_width=True)
+        if submitted:
+            if email in VALID_USERS and VALID_USERS[email] == password:
+                st.session_state.authed = True
+                st.session_state.user_email = email
+                st.session_state.messages = []
+                st.session_state.lang = "English"
+                st.session_state.curriculum = "Illustrative Mathematics (IM)"
+                st.rerun()
+            else:
+                st.error("❌ Invalid email or password.")
+    st.stop()
+
+# ===================== MAIN APP =====================
+lang = st.session_state.lang
+curriculum = st.session_state.curriculum
+
 with st.sidebar:
-    st.markdown("## 🟢 CAESURA TUTOR")
-    st.markdown(
-        f"<small style='color:#00FF0080'>{t('tagline')}</small>",
-        unsafe_allow_html=True,
-    )
+    if st.session_state.get("user_email"):
+        st.markdown(f"<small style='color:#00FF0080'>👋 {st.session_state.user_email}</small>", unsafe_allow_html=True)
+
+    st.markdown("## 🟢 CEASURA TUTOR")
+    st.markdown("<small style='color:#00FF0080'>MATH MADE EASIER</small>", unsafe_allow_html=True)
     st.markdown("---")
 
-    st.markdown(f"#### {t('language')}")
+    # Language picker
+    st.markdown("#### 🌐 Language")
     lang_choice = st.radio(
-        t("select_language"),
+        "Select language",
         options=list(LANG_LABELS.keys()),
         format_func=lambda x: LANG_LABELS[x],
         index=list(LANG_LABELS.keys()).index(st.session_state.lang),
         label_visibility="collapsed",
     )
-  
+    if lang_choice != st.session_state.lang:
+        st.session_state.lang = lang_choice
+        st.session_state.messages = []
+        st.rerun()
 
-    st.markdown(f"#### {t('curricula')}")
+    st.markdown("---")
+
+    # Curriculum picker
+    st.markdown("#### 📚 Curricula")
     for cat, items in CURRICULUMS.items():
         with st.expander(cat, expanded=False):
             for item in items:
@@ -256,65 +191,85 @@ with st.sidebar:
 
     st.markdown("---")
 
-   
-
-    if len(st.session_[state.me](https://state.me)ssages) > 0:
-        chat_export = ""
-        for m in st.session_[state.me](https://state.me)ssages:
-            role = "Student" if m["role"] == "user" else "Caesura Tutor"
-            chat_export += f"{role}: {m['content']}\n\n"
-        st.download_button(
-            label="📥 Download Notes",
-            data=chat_export,
-            file_name="caesura_math_notes.txt",
-            mime="text/plain",
-            use_container_width=True,
-        )
+    # New Chat button
+    if st.button("➕ New Chat", use_container_width=True):
+        st.session_state.messages = []
+        st.rerun()
 
     st.markdown("---")
 
-# ── Main content area ───────────────────────────────────────
-if not st.session_[state.me](https://state.me)ssages:
-    st.markdown(
-        "<h1 style='text-align:center;font-size:3.5rem;letter-spacing:0.3em;color:#00FF00'>CAESURA TUTOR</h1>",
-        unsafe_allow_html=True,
-    )
-    st.markdown(
-        f"<p style='text-align:center;color:#00FF0080'>{t('tagline')} &nbsp;·&nbsp; {curriculum}</p>",
-        unsafe_allow_html=True,
-    )
+    # Log Out button
+    if st.button("🚪 Log Out", use_container_width=True):
+        st.session_state.authed = False
+        st.session_state.user_email = ""
+        st.session_state.messages = []
+        st.rerun()
+
+
+# --- Hero / chat display ---
+if not st.session_state.messages:
+    st.markdown(f"<h1 style='text-align:center;font-size:3.5rem;letter-spacing:0.3em;color:#00FF00'>CEASURA TUTOR</h1>", unsafe_allow_html=True)
+    st.markdown(f"<p style='text-align:center;color:#00FF0080'>Math Made Easier &nbsp;·&nbsp; 📌 {curriculum}</p>", unsafe_allow_html=True)
     st.markdown("")
     with st.chat_message("assistant"):
         st.markdown(WELCOME_MESSAGES[lang])
 else:
-    st.markdown(
-        "<h4 style='color:#00FF00;letter-spacing:0.2em'>CAESURA TUTOR</h4>",
-        unsafe_allow_html=True,
-    )
-    for msg in st.session_[state.me](https://state.me)ssages:
+    st.markdown(f"<h4 style='color:#00FF00;letter-spacing:0.2em'>CEASURA TUTOR</h4>", unsafe_allow_html=True)
+    for msg in st.session_state.messages:
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
 
-# ── Single chat input ────────────────────────────────────────
-query = st.chat_input(PLACEHOLDER_MAP.get(lang, "Ask a math question..."))
 
-if query:
-    query = query.strip()
+# --- Ask Ceasura via deployed Base44 function ---
+def ask_ceasura(query, history, curriculum, lang):
+    try:
+        resp = requests.post(
+            ASK_NEXUS_URL,
+            json={"query": query, "history": history,
+                  "curriculum": curriculum, "lang": lang},
+            timeout=120,
+        )
+        if resp.status_code != 200:
+            return f"❌ Something went wrong (HTTP {resp.status_code})."
+        data = resp.json()
+        return data.get("answer") or "Sorry, no answer returned."
+    except requests.exceptions.RequestException as e:
+        return f"❌ Network error: `{e}`"
+    except Exception as e:
+        return f"❌ Error: `{e}`"
+
+
+# --- Chat input ---
+user_input = st.chat_input(PLACEHOLDER_MAP.get(lang, "Ask a math question..."))
+
+if user_input:
+    query = user_input.strip()
+    lower = query.lower()
+    is_math = any(kw in lower for kw in MATH_KEYWORDS)
 
     with st.chat_message("user"):
         st.markdown(query)
-    st.session_[state.messages.app](https://state.messages.app)end({"role": "user", "content": query})
+    st.session_state.messages.append({"role": "user", "content": query})
 
-    if not is_math_query(query):
+    if not is_math:
         err = NOT_MATH_MESSAGES[lang]
         with st.chat_message("assistant"):
-            st.markdown(err)
-        st.session_[state.messages.app](https://state.messages.app)end({"role": "assistant", "content": err})
+            st.warning(err)
+        st.session_state.messages.append({"role": "assistant", "content": err})
     else:
-        chat_history = build_history(st.session_[state.me](https://state.me)ssages[:-1])
+        # Build history (last 6 exchanges)
+        history = []
+        msgs = [m for m in st.session_state.messages[:-1]]
+        for i, m in enumerate(msgs):
+            if m["role"] == "user" and i + 1 < len(msgs) and msgs[i+1]["role"] == "assistant":
+                history.append({"question": m["content"], "answer": msgs[i+1]["content"]})
+        history = history[-6:]
 
         with st.chat_message("assistant"):
-            with st.spinner(t("thinking")):
-                answer = ask_caesura(query, chat_history, curriculum, lang)
+            with st.spinner("Ceasura is thinking..."):
+                answer = ask_ceasura(query, history, curriculum, lang)
                 st.markdown(answer)
-        st.session_[state.messages.app](https://state.messages.app)end({"role": "assistant", "content": answer})
+                st.session_state.messages.append({"role": "assistant", "content": answer})
+```
+
+Every "Nexus AI" reference is now "Ceasura Tutor" (titles, welcome lines, sidebar, spinner, page title). Run it with `streamlit run streamlit_app.py` after swapping in your domain.
